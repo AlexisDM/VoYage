@@ -36,8 +36,6 @@ public class FormulaireServlet extends HttpServlet {
 				String password = req.getParameter("password");
 				
 				Date dateCreaAccount = new Date();
-				 
-				
 				
 				if (nom != null && prenom != null && age != null && email != null && login != null && password != null) {
 					DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -60,7 +58,7 @@ public class FormulaireServlet extends HttpServlet {
 					Properties props = new Properties();
 			        Session session = Session.getDefaultInstance(props, null);
 
-			        String msgBody = "Welcome to VoYage!!\nYour account has been activated";
+			        String msgBody = "Welcome to VoYage!!\nYour account has been activated.";
 
 			        try {
 			            Message msg = new MimeMessage(session);
