@@ -11,33 +11,16 @@
 	</head>
 
 	<body onload="funcFillDataAdmin()">
+	<h1>voYage</h1>
 		<div id="resultLogin">
-	  		<div id="welcomeText">
-	  			Hey <span id="userName"></span>, you are now logged in as admin.
-	  		</div> 
-	  		
-	  		<table>
-	  			<tr>
-	  				<td id="lblAdminFirstName">First name</td>
-	  				<td id="fieldAdminFirstName"></td>
-	  			</tr>
-	  			<tr>
-	  				<td id="lblAdminLastName">Last name</td>
-	  				<td id="fieldAdminLastName"></td>
-	  			</tr>
-	  			<tr>
-	  				<td id="lblAdminLastConnexionDate">Last Connexion Date</td>
-	  				<td id="fieldAdminLastConnexionDate"></td>
-	  			</tr>
-	  			<tr>
-	  				<td id="lblAdminLastConnexionTime">Last Connexion Time</td>
-	  				<td id="fieldAdminLastConnexionTime"></td>
-	  			</tr>
-	  			<tr>
-	  				<td id="lblAdminLogin">Login</td>
-	  				<td id="fieldAdminLogin"></td>
-	  			</tr>
-	  		</table>
+
+			Welcome <span id="fieldAdminLogin"></span>
+			<br/>
+	  		Last Connexion : <span id="fieldAdminLastConnexionDate"></span>
+			<br/>
+	  		Last Connexion Duration : <span id="fieldAdminLastConnexionTime"></span>
+	  		<br/>
+	  		<button id="btnDisconnect" onclick="funcDisconnect();">Log Out</button>
 		</div>
 	</body>
 </html>

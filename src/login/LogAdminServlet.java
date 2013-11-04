@@ -63,9 +63,20 @@ public class LogAdminServlet extends HttpServlet {
 
 					}
 					
+					/*initilisation des variables sessions
+					 *
+					 */
+					
+					HttpSession session = req.getSession();
+					session.setAttribute("login", login);
+					session.setAttribute("lastConnexionDate", lastConnexionDate);
+					session.setAttribute("lastConnexionTime", lastConnexionTime);
+					
+					
+					
 					PrintWriter out = resp.getWriter();
 					if(isLogged) {
-						out.write(login+";"+nom+";"+prenom+";"+lastConnexionDate+";"+lastConnexionTime);
+						out.write(session.getAttribute("login")+";"+nom+";"+prenom+";"+lastConnexionDate+";"+lastConnexionTime);
 					} else {
 						out.write("Failed");
 					}
