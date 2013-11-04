@@ -46,6 +46,25 @@ function funcLog() {
 		});  
 }
 
+function funcLogAdmin() {
+	alert($("#adm_login").val());
+	$.post("logAdmin",
+		{
+			cmd:"PostInfo",
+			login: $("#adm_login").val(),
+			password: $("#adm_password").val()
+		},
+		function(data,status){
+			if(data == "Failed") {
+				$('#lblErrorPassword').text("Bad connection parameters. Please try again");
+			} else {
+				var tab = new Array();
+				tab = data.split(";");
+				window.location.href = 'admin.html?login='.concat(tab[0]).concat("&nom=").concat(tab[1]).concat("&prenom=").concat(tab[1]).concat("&lastConnexionDate=").concat("&lastConnexionTime=");
+			}
+		});  
+}
+
 function getURLParameter(name) {
     return decodeURI(
         (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]
@@ -59,4 +78,13 @@ function funcFillData() {
 	$("#fieldUserAge").text(getURLParameter("age"));
 	$("#fieldUserEmail").text(getURLParameter("email"));
 	$("#fieldUserLogin").text(getURLParameter("login"));
+}
+
+function funcFillDataAdmin() {
+	$("#userName").text(getURLParameter("login"));
+	$("#fieldAdminFirstName").text(getURLParameter("prenom"));
+	$("#fieldAdminLastName").text(getURLParameter("nom"));
+	$("#fieldAdminLogin").text(getURLParameter("login"));
+	$("#fieldAdminLastConnexionDate").text(getURLParameter("lastConnexionDate"));
+	$("#fieldAdminLastConnexionTime").text(getURLParameter("lastConnexionTime"));
 }
