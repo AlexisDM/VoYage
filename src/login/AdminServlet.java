@@ -2,10 +2,13 @@ package login;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Level;
 
@@ -60,12 +63,17 @@ public class AdminServlet extends HttpServlet {
 					}
 					String lastConnexionDate = user.getProperty("lastConnexionDate").toString();
 					
-					datastore.put(user);
-					isOk = true;
+					DateFormat df = DateFormat.getDateInstance(DateFormat.FULL, Locale.FRANCE);
+				    Date convertedDate;
+					try {
+						convertedDate = df.parse(lastConnexionDate);
+						user.setProperty("lastConnexionTime", new Date (new Date().getTime() - convertedDate.getTime()));
+						datastore.put(user);
+						isOk = true;
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
 				}
-
-				
-				
 				PrintWriter out = resp.getWriter();
 				if(isOk) {
 					out.write("Success");
