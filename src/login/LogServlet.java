@@ -2,25 +2,12 @@ package login;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Level;
-
-import javax.cache.Cache;
-import javax.cache.CacheException;
-import javax.cache.CacheFactory;
-import javax.cache.CacheManager;
 import javax.servlet.http.*;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.memcache.ErrorHandlers;
-import com.google.appengine.api.memcache.MemcacheService;
-import com.google.appengine.api.memcache.MemcacheServiceFactory;
-import com.google.appengine.api.memcache.jsr107cache.GCacheFactory;
 
 
 @SuppressWarnings("serial")
@@ -29,7 +16,7 @@ public class LogServlet extends HttpServlet {
 			throws IOException {
 	}
 	
-	@SuppressWarnings({ "deprecation", "unchecked", "rawtypes", "unused" })
+	@SuppressWarnings({ "deprecation" })
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		String cmd = req.getParameter("cmd");
 		

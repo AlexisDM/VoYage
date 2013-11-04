@@ -3,7 +3,6 @@ package formulaire;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.Date;
-
 import javax.servlet.http.*;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -27,17 +26,29 @@ public class FormulaireServlet extends HttpServlet {
 		
 		if (cmd != null) {
 			if ("PostInfo".equals(cmd)) {
-				
+				//Récupération des données saisies
 				String nom = req.getParameter("nom");
 				String prenom = req.getParameter("prenom");
 				String age = req.getParameter("age");
 				String email = req.getParameter("email");
 				String login = req.getParameter("login");
-				String password = req.getParameter("password");
+				//String password = req.getParameter("password");
 				
-				Date dateCreaAccount = new Date();
+				//Génération du mot de passe
+				String chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+			    String pass = "";
+			    for(int x=0;x<8;x++)
+			    {
+			       int i = (int)Math.floor(Math.random() * 62);
+			       pass += chars.charAt(i);
+			    }
+			    System.out.println(pass);
 				
-				if (nom != null && prenom != null && age != null && email != null && login != null && password != null) {
+			    Date dateCreaAccount = new Date();
+				
+			    
+				if (nom != null && prenom != null && age != null && email != null && login != null) {
+					//Enregistrement de l'utilisateur dans le DataStore
 					DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 					
 					Entity user = new Entity("user");
@@ -47,7 +58,7 @@ public class FormulaireServlet extends HttpServlet {
 					user.setProperty("age", age);
 					user.setProperty("email", email);
 					user.setProperty("login", login);
-					user.setProperty("password", password);
+					user.setProperty("password", pass);
 					user.setProperty("creationAccount", dateCreaAccount);
 					user.setProperty("lastConnexionDate", dateCreaAccount);
 					user.setProperty("lastConnexionTime", "0");
@@ -55,14 +66,18 @@ public class FormulaireServlet extends HttpServlet {
 					
 					datastore.put(user);
 					
+					//Envoie du mail
 					Properties props = new Properties();
 			        Session session = Session.getDefaultInstance(props, null);
 
-			        String msgBody = "Welcome to VoYage!!\nYour account has been activated.";
+			        String msgBody = "Bienvenue sur VoYage!!\n"
+			        		+ "Votre compte a bien été créé.\n"
+			        		+ "Votre mot de passe est : "+pass+"\n"
+			        		+ "Vous pourrez le modifier lors de votre prochaine connexion.";
 
 			        try {
 			            Message msg = new MimeMessage(session);
-			            msg.setFrom(new InternetAddress("alexis.demarinis@gmail.com", "admin@cpe.fr Admin"));
+			            msg.setFrom(new InternetAddress("alexis.demarinis@gmail.com", "noReply@VoYage.fr Admin"));
 			            msg.addRecipient(Message.RecipientType.TO,
 			                             new InternetAddress(email, login));
 			            msg.setSubject("Your account has been activated");
