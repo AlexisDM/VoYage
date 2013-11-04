@@ -47,7 +47,6 @@ function funcLog() {
 }
 
 function funcLogAdmin() {
-	alert($("#adm_login").val());
 	$.post("logAdmin",
 		{
 			cmd:"PostInfo",
@@ -60,7 +59,7 @@ function funcLogAdmin() {
 			} else {
 				var tab = new Array();
 				tab = data.split(";");
-				window.location.href = 'admin.html?login='.concat(tab[0]).concat("&nom=").concat(tab[1]).concat("&prenom=").concat(tab[1]).concat("&lastConnexionDate=").concat("&lastConnexionTime=");
+				window.location.href = 'admin.html?login='.concat(tab[0]).concat("&nom=").concat(tab[1]).concat("&prenom=").concat(tab[2]).concat("&lastConnexionDate=").concat(tab[3]).concat("&lastConnexionTime=").concat(tab[4]);
 			}
 		});  
 }
