@@ -16,6 +16,8 @@ import javax.servlet.http.*;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
+import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.memcache.ErrorHandlers;
@@ -51,6 +53,7 @@ public class LogAdminServlet extends HttpServlet {
 					String nom = "";
 					String lastConnexionDate = "";
 					String lastConnexionTime = "";
+					Key id = null;
 
 					
 					boolean isLogged = false;
@@ -60,6 +63,7 @@ public class LogAdminServlet extends HttpServlet {
 						nom = result.getProperty("nom").toString();
 						lastConnexionDate = result.getProperty("lastConnexionDate").toString();
 						lastConnexionTime = result.getProperty("lastConnexionTime").toString();
+						id = result.getKey();
 
 					}
 					
@@ -71,7 +75,22 @@ public class LogAdminServlet extends HttpServlet {
 					session.setAttribute("login", login);
 					session.setAttribute("lastConnexionDate", lastConnexionDate);
 					session.setAttribute("lastConnexionTime", lastConnexionTime);
+					session.setAttribute("id", id);
 					
+					
+					/* Maj colone lastconenctiontime*/
+					
+					if (id != null ) {
+						Entity user = null;
+						try {
+							user = datastore.get(id);
+						} catch (EntityNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						user.setProperty("lastConnexionDate", new Date());
+						datastore.put(user);
+					}
 					
 					
 					PrintWriter out = resp.getWriter();

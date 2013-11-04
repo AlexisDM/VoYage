@@ -64,6 +64,20 @@ function funcLogAdmin() {
 		});  
 }
 
+function funcDisconnect() {
+	$.post("Admin",
+		{
+			cmd:"Disconnect"
+		},
+		function(data,status){
+			if(data == "Failed") {
+				alert("You couldn't be disconnected")
+			} else {
+				window.location.href = 'loginadmin.html';
+			}
+		});  
+}
+
 function getURLParameter(name) {
     return decodeURI(
         (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]
