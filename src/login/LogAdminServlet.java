@@ -2,6 +2,7 @@ package login;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DecimalFormat;
 import java.util.Date;
 import javax.servlet.http.*;
 import com.google.appengine.api.datastore.DatastoreService;
@@ -40,6 +41,7 @@ public class LogAdminServlet extends HttpServlet {
 					String nom = "";
 					String lastConnexionDate = "";
 					String lastConnexionTime = "";
+					double lastConnexionTimedb = 0;
 					Key id = null;
 
 					
@@ -50,6 +52,11 @@ public class LogAdminServlet extends HttpServlet {
 						nom = result.getProperty("nom").toString();
 						lastConnexionDate = result.getProperty("lastConnexionDate").toString();
 						lastConnexionTime = result.getProperty("lastConnexionTime").toString();
+						lastConnexionTimedb = Double.parseDouble(lastConnexionTime);
+						lastConnexionTimedb = lastConnexionTimedb/6000;
+						lastConnexionTimedb = Math.round( lastConnexionTimedb * 100.0 ) / 100.0;
+						DecimalFormat df = new DecimalFormat("#");
+						lastConnexionTime = (df.format(lastConnexionTimedb));
 						id = result.getKey();
 
 					}
