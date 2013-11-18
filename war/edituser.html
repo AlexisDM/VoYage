@@ -10,7 +10,7 @@
 		<script src="https://d10ajoocuyu32n.cloudfront.net/jquery-1.9.1.min.js"></script>
 	</head>
 	
-	<body>
+	<body onload="funcUserLoad()">
 		<h1>voYage</h1>
 		<h2>Edit Users</h2>
 		<fieldset>
@@ -35,7 +35,7 @@
 				<tr style='height: 30px;'></tr>
 				<tr>
 					<td>Login</td>
-					<td><input type="text" id="usr_login" /></td>
+					<td> <span id="usr_login"></span></td>
 				</tr>
  				<tr>
  					<td>Password</td>
@@ -45,15 +45,27 @@
  					<td>Re-Password</td>
  					<td><input type="password" id="usr_rePassword" /></td>
 				</tr>
+				<tr style='height: 30px;'></tr>
 				<tr>
-					<td>
-						<button id="btnCancel" onclick="">Cancel</button>
-					</td>
-					<td>
-						<button id="btnSendId" onclick="">Valider</button>
+ 					<td>Creation Date</td>
+ 					<td><span id="usr_creation"></span></td>
+				</tr>
+				<tr>
+ 					<td>Last Connexion Date</td>
+ 					<td><span id="usr_lastConnexionDate"></span></td>
+				</tr>
+				<tr>
+ 					<td>Last Connexion Time</td>
+ 					<td><span id="usr_lastConnexionTime"></span></td>
+				</tr>
+				<tr style='height: 30px;'></tr>
+				<tr>
+					<td colspan="2">
+						<button id="btnUpdateUser" onclick="funcUpdateUser();">Valider</button><button id="btnCancel" onclick="">Cancel</button>
 					</td>
 				</tr>
 			</table>
+			<input type="hidden" id="usr_id"/>
 		</fieldset>
 		<footer>
 			<br />
