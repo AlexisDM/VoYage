@@ -44,7 +44,6 @@ public class LogServlet extends HttpServlet {
 					String age = "";
 					String accountCrea = "";
 					String lastConn = "";
-					Key id = null;
 					
 					boolean isLogged = false;
 					for(Entity result : pq.asIterable ()) {
@@ -55,13 +54,11 @@ public class LogServlet extends HttpServlet {
 						age = result.getProperty("age").toString();
 						lastConn = result.getProperty("lastConnexionDate").toString();
 						accountCrea = result.getProperty("creationAccount").toString();
-						id = result.getKey();
 					}
 					
 					//Création d'une session stockant le login
 					HttpSession session = req.getSession();
 					session.setAttribute("login", login);
-					session.setAttribute("id", id);
 					
 					PrintWriter out = resp.getWriter();
 					if(accountCrea.equals(lastConn)) {
