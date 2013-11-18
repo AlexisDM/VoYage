@@ -1,0 +1,65 @@
+/*
+ * Villes
+ * city.setProperty("id", "1");
+ * city.setProperty("name", "Lyon");
+ * datastore.put(city);
+ * city.setProperty("id", "2");
+ * city.setProperty("name", "New York");
+ * datastore.put(city);
+ * city.setProperty("id", "3");
+ * city.setProperty("name", "Barcelone");
+ * datastore.put(city);
+ * city.setProperty("id", "4");
+ * city.setProperty("name", "Tokyo");
+ * datastore.put(city);
+ * city.setProperty("id", "5");
+ * city.setProperty("name", "Sydney");
+ * datastore.put(city);
+ * 
+ * 
+ * Vols
+Entity flight = new Entity("flight");
+flight.setProperty("from", 1);
+flight.setProperty("to", 2);
+flight.setProperty("dateDeparture", new Date());
+flight.setProperty("dateArrival", new Date());
+flight.setProperty("seat", 152);
+flight.setProperty("price", 800);
+datastore.put(flight);
+
+Entity flight = new Entity("flight");
+flight.setProperty("from", 3);
+flight.setProperty("to", 5);
+flight.setProperty("dateDeparture", new Date());
+flight.setProperty("dateArrival", new Date());
+flight.setProperty("seat", 15);
+flight.setProperty("price", 1000);
+datastore.put(flight);
+
+Entity flight = new Entity("flight");
+flight.setProperty("from", 4);
+flight.setProperty("to", 1);
+flight.setProperty("dateDeparture", new Date());
+flight.setProperty("dateArrival", new Date());
+flight.setProperty("seat", 35);
+flight.setProperty("price", 42);
+datastore.put(flight);
+
+Entity flight = new Entity("flight");
+flight.setProperty("from", 3);
+flight.setProperty("to", 2);
+flight.setProperty("dateDeparture", new Date());
+flight.setProperty("dateArrival", new Date());
+flight.setProperty("seat", 350);
+flight.setProperty("price", 400);
+datastore.put(flight);
+
+Entity flight = new Entity("flight");
+flight.setProperty("from", 5);
+flight.setProperty("to", 1);
+flight.setProperty("dateDeparture", new Date());
+flight.setProperty("dateArrival", new Date());
+flight.setProperty("seat", 132);
+flight.setProperty("price", 1400);
+datastore.put(flight);
+*/

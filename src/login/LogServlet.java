@@ -64,7 +64,7 @@ public class LogServlet extends HttpServlet {
 					session.setAttribute("login", login);
 					session.setAttribute("id", id);
 					
-					if(accountCrea.equals(lastConn)) {
+					if(!accountCrea.equals("") && accountCrea.equals(lastConn)) {
 						out.write("FirstConn");
 					} else if(isLogged) {
 						out.write(login+";"+nom+";"+prenom+";"+email+";"+age);

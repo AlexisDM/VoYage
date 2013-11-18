@@ -10,8 +10,9 @@
 		<script src="https://d10ajoocuyu32n.cloudfront.net/jquery-1.9.1.min.js"></script>
 	</head>
 
-	<body onload="funcFillDataAdmin()">
+	<body onload="funcFillDataAdmin();funcLoadUsers()">
 	<h1>voYage</h1>
+		<h2>Manage Users</h2>
 		<div id="resultLogin">
 
 			Welcome <span id="fieldAdminLogin"></span>
@@ -23,9 +24,10 @@
 	  		<button id="btnDisconnect" onclick="funcDisconnect();">Log Out</button>
 		</div>
 		<hr/>
-		<div id="buttons">
-			<button id="btnManageUsers" onclick="funcManageUsers();">Manage Users</button>
-			<button id="btnManageFlights" onclick="funcManageFlights();">Manage Flights</button>
+		<div id="users">
+			<table id="myUsers" border="1">
+				
+			</table>
 		</div>
 	</body>
 </html>
