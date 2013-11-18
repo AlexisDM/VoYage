@@ -78,6 +78,100 @@ function funcDisconnect() {
 		});  
 }
 
+function funcManageUsers() {
+	$.post("Admin",
+		{
+			cmd:"ManageUsers"
+		},
+		function(data,status){
+			if(data == "Failed") {
+				alert("Error accessing other page")
+			} else {
+				var tab = new Array();
+				tab = data.split(";");
+				window.location.href = 'manageusers.html?login='.concat(tab[0]).concat("&nom=").concat(tab[1]).concat("&prenom=").concat(tab[2]).concat("&lastConnexionDate=").concat(tab[3]).concat("&lastConnexionTime=").concat(tab[4]);
+			}
+		});  
+}
+
+function funcLoadUsers() {
+	$.post("ManageUsers",
+		{
+			cmd:"LoadUsers"
+		},
+		function(data,status){
+			if(data == "Failed") {
+				alert("Error loading users list")
+			} else {
+				
+				var table=document.getElementById("myUsers");
+
+				
+				
+				for (x in data)
+				  {
+				  var row=table.insertRow(x);
+				  
+				  var cell1=row.insertCell(0);
+				  var cell2=row.insertCell(1);
+				  var cell3=row.insertCell(2);
+				  var cell4=row.insertCell(3);
+				  var cell5=row.insertCell(4);
+				  var cell6=row.insertCell(5);
+				  var cell7=row.insertCell(6);
+				  var cell8=row.insertCell(7);
+				  
+				  cell1.innerHTML = data[x].login;
+				  cell2.innerHTML = data[x].nom;
+				  cell3.innerHTML = data[x].prenom;
+				  cell4.innerHTML = data[x].age;
+				  cell5.innerHTML = data[x].creationAccount;
+				  cell6.innerHTML = data[x].lastConnexionDate;
+				  cell7.innerHTML = data[x].lastConnexionTime;
+				  cell8.innerHTML = "<button id=\"btnEdit\" onclick=\"funcEditUser('".concat(data[x].id).concat("');\">Edit</button>").concat("<button id=\"btnDelete\" onclick=\"funcDeleteUser('").concat(data[x].id).concat("');\">Delete</button>");
+				  }
+				
+				 var row=table.insertRow(0);
+				 var cell1=row.insertCell(0);
+				 var cell2=row.insertCell(1);
+				 var cell3=row.insertCell(2);
+				 var cell4=row.insertCell(3);
+				 var cell5=row.insertCell(4);
+				 var cell6=row.insertCell(5);
+				 var cell7=row.insertCell(6);
+				 var cell8=row.insertCell(7);
+				  
+				 cell1.innerHTML = "<b>Login</b>";
+				 cell2.innerHTML = "<b>Last Name</b>";
+				 cell3.innerHTML = "<b>First Name</b>";
+				 cell4.innerHTML = "<b>Age</b>";
+				 cell5.innerHTML = "<b>Creation Date</b>";
+				 cell6.innerHTML = "<b>Last Connexion Date</b>";
+				 cell7.innerHTML = "<b>Last Connexion Time</b>";
+				 cell8.innerHTML = "<b>Action</b>";
+
+
+			}
+		});  
+}
+
+function funcEditUser(param) {
+	$.post("ManageUsers",
+		{
+			cmd:"EditUser",
+			id:param
+		},
+		function(data,status){
+			if(data == "Failed") {
+				alert("Error accessing other page")
+			} else {
+				var tab = new Array();
+				tab = data.split(";");
+				window.location.href = 'manageusers.html?login='.concat(tab[0]).concat("&nom=").concat(tab[1]).concat("&prenom=").concat(tab[2]).concat("&lastConnexionDate=").concat(tab[3]).concat("&lastConnexionTime=").concat(tab[4]);
+			}
+		});  
+}
+
 function getURLParameter(name) {
     return decodeURI(
         (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]

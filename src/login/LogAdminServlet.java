@@ -97,6 +97,7 @@ public class LogAdminServlet extends HttpServlet {
 							e.printStackTrace();
 						}
 						user.setProperty("lastConnexionDate", new Date());
+						user.setProperty("lastConnexionTime", "0");
 						datastore.put(user);
 					}
 					
