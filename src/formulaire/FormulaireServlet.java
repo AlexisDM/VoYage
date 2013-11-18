@@ -62,7 +62,7 @@ public class FormulaireServlet extends HttpServlet {
 					user.setProperty("creationAccount", dateCreaAccount);
 					user.setProperty("lastConnexionDate", dateCreaAccount);
 					user.setProperty("lastConnexionTime", "0");
-					user.setProperty("admin", "Y");
+					user.setProperty("admin", "N");
 					
 					datastore.put(user);
 					

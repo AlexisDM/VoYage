@@ -64,14 +64,16 @@ public class AdminServlet extends HttpServlet {
 					String lastConnexionDate = user.getProperty("lastConnexionDate").toString();
 					
 					DateFormat df = DateFormat.getDateInstance(DateFormat.FULL, Locale.FRANCE);
-				    Date convertedDate;
-					try {
-						convertedDate = df.parse(lastConnexionDate);
-						user.setProperty("lastConnexionTime", new Date (new Date().getTime() - convertedDate.getTime()));
+					SimpleDateFormat format=new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy",Locale.US);
+				    Date convertedDate;			    
+				    try {
+						convertedDate = format.parse(lastConnexionDate);
+						user.setProperty("lastConnexionTime", new Date().getTime() - convertedDate.getTime());
 						datastore.put(user);
 						isOk = true;
-					} catch (ParseException e) {
-						e.printStackTrace();
+					} catch (ParseException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
 					}
 				}
 				PrintWriter out = resp.getWriter();
