@@ -43,7 +43,8 @@ function funcLog() {
 			} else {
 				var tab = new Array();
 				tab = data.split(";");
-				window.location.href = 'resultLog.html?login='.concat(tab[0]).concat("&nom=").concat(tab[1]).concat("&prenom=").concat(tab[2]).concat("&email=").concat(tab[3]).concat("&age=").concat(tab[4]);
+				window.location.href = 'flights.html';
+				//window.location.href = 'flights.html?login='.concat(tab[0]).concat("&nom=").concat(tab[1]).concat("&prenom=").concat(tab[2]).concat("&email=").concat(tab[3]).concat("&age=").concat(tab[4]);
 			}
 		});  
 }
@@ -61,7 +62,7 @@ function funcChangePass() {
 					if(data == "fail") {
 						$('#lblErrorPassword').text("Bad connection parameters. Please try again");
 					} else {
-						window.location.href = 'resultLog.html';
+						window.location.href = 'flights.html';
 					}
 				});
 	}
