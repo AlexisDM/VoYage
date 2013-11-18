@@ -31,19 +31,40 @@ function funcSendInfo() {
 function funcLog() {
 	$.post("login",
 		{
-			cmd:"PostInfo",
+			cmd:"PostLogin",
 			login: $("#usr_login").val(),
 			password: $("#usr_password").val()
 		},
 		function(data,status){
 			if(data == "Failed") {
 				$('#lblErrorPassword').text("Bad connection parameters. Please try again");
+			} else if(data == "FirstConn") {
+				window.location.href = 'changepassword.html'
 			} else {
 				var tab = new Array();
 				tab = data.split(";");
 				window.location.href = 'resultLog.html?login='.concat(tab[0]).concat("&nom=").concat(tab[1]).concat("&prenom=").concat(tab[2]).concat("&email=").concat(tab[3]).concat("&age=").concat(tab[4]);
 			}
 		});  
+}
+
+function funcChangePass() {
+	if($("#usr_newPassword").val() === $("#usr_repeatPassword").val()) {
+		$.post("login",
+				{
+					cmd:"PostChangePass",
+					oldPassword: $("#usr_oldPassword").val(),
+					newPassword: $("#usr_newPassword").val()
+				},
+				function(data,status){
+					alert(data);
+					if(data == "fail") {
+						$('#lblErrorPassword').text("Bad connection parameters. Please try again");
+					} else {
+						window.location.href = 'resultLog.html';
+					}
+				});
+	}
 }
 
 function funcLogAdmin() {
