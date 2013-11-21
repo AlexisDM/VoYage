@@ -35,7 +35,7 @@ public class AdminServlet extends HttpServlet {
 				
 				boolean isOk = false;
 				
-				
+				System.out.println(session.getAttribute("id"));
 				Key id = (Key) session.getAttribute("id");
 				
 

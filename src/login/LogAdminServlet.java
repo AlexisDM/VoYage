@@ -53,7 +53,6 @@ public class LogAdminServlet extends HttpServlet {
 						
 						session.setAttribute("id", user.getId().getId());
 						
-						System.out.println(user.getId().getId());
 					}
 					catch(Exception e)
 					{
