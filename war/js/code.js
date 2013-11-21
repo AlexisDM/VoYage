@@ -57,7 +57,6 @@ function funcChangePass() {
 					newPassword: $("#usr_newPassword").val()
 				},
 				function(data,status){
-					alert(data);
 					if(data == "fail") {
 						$('#lblErrorPassword').text("Bad connection parameters. Please try again");
 					} else {
