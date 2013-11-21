@@ -1,0 +1,56 @@
+DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+					
+Entity flight = new Entity("flight");
+flight.setProperty("from", "Lyon");
+flight.setProperty("to", "Rio de Janeiro");
+flight.setProperty("date", "13/12/13");
+flight.setProperty("departure", "08:00");
+flight.setProperty("arrival", "13/12/13 18:00");
+flight.setProperty("time", "10h");
+flight.setProperty("seats", "152");
+flight.setProperty("price", "800");
+datastore.put(flight);
+
+flight = new Entity("flight");
+flight.setProperty("from", "New York");
+flight.setProperty("to", "Tokyo");
+flight.setProperty("date", "10/12/13");
+flight.setProperty("departure", "10:00");
+flight.setProperty("arrival", "11/12/13 18:00");
+flight.setProperty("time", "8h");
+flight.setProperty("seats", "152");
+flight.setProperty("price", "800");
+datastore.put(flight);
+
+flight = new Entity("flight");
+flight.setProperty("from", "Lyon");
+flight.setProperty("to", "Tokyo");
+flight.setProperty("date", "11/12/13");
+flight.setProperty("departure", "11:00");
+flight.setProperty("arrival", "11/12/13 20:00");
+flight.setProperty("time", "9h");
+flight.setProperty("seats", "152");
+flight.setProperty("price", "800");
+datastore.put(flight);
+
+flight = new Entity("flight");
+flight.setProperty("from", "Tokyo");
+flight.setProperty("to", "Rio de Janeiro");
+flight.setProperty("date", "12/12/13");
+flight.setProperty("departure", "00:00");
+flight.setProperty("arrival", "12/12/13 10:00");
+flight.setProperty("time", "10h");
+flight.setProperty("seats", "152");
+flight.setProperty("price", "800");
+datastore.put(flight);
+
+flight = new Entity("flight");
+flight.setProperty("from", "Sydney");
+flight.setProperty("to", "New York");
+flight.setProperty("date", "14/12/13");
+flight.setProperty("departure", "08:00");
+flight.setProperty("arrival", "14/12/13 22:00");
+flight.setProperty("time", "22h");
+flight.setProperty("seats", "152");
+flight.setProperty("price", "800");
+datastore.put(flight);
