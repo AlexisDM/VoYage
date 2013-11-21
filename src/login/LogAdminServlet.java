@@ -13,6 +13,7 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 
@@ -49,7 +50,7 @@ public class LogAdminServlet extends HttpServlet {
 						session.setAttribute("lastConnexionTime", user.getLastConnectionTime());
 						session.setAttribute("nom", user.getNom());
 						session.setAttribute("prenom", user.getPrenom());
-						session.setAttribute("id", user.getId());
+						session.setAttribute("id", KeyFactory.keyToString(user.getId()));
 						
 					}
 					catch(Exception e)

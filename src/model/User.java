@@ -3,6 +3,7 @@ package model;
 import java.util.Date;
 
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 
 public class User {
 	Key id;
