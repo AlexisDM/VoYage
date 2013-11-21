@@ -24,13 +24,14 @@ public class LogServlet extends HttpServlet {
 	@SuppressWarnings({ "deprecation" })
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		String cmd = req.getParameter("cmd");
+		PrintWriter out = resp.getWriter();
 		
 		if (cmd != null) {
 			if ("PostLogin".equals(cmd)) {
 				String login = req.getParameter("login");
 				String password = req.getParameter("password");
 				
-				if (login != null && password != null) {
+				if (login != null && !login.equals("") && password != null && !password.equals("")) {
 					DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 					
 					Query q = new Query("user");
@@ -63,14 +64,15 @@ public class LogServlet extends HttpServlet {
 					session.setAttribute("login", login);
 					session.setAttribute("id", id);
 					
-					PrintWriter out = resp.getWriter();
-					if(accountCrea.equals(lastConn)) {
+					if(!accountCrea.equals("") && accountCrea.equals(lastConn)) {
 						out.write("FirstConn");
 					} else if(isLogged) {
 						out.write(login+";"+nom+";"+prenom+";"+email+";"+age);
 					} else {
 						out.write("Failed");
 					}
+				} else {
+					out.write("Failed");
 				}
 			} else if("PostChangePass".equals(cmd)) {
 				String oldPassword = req.getParameter("oldPassword");
@@ -113,7 +115,6 @@ public class LogServlet extends HttpServlet {
 					datastore.put(user);
 				}
 				
-				PrintWriter out = resp.getWriter();
 				if(changedPassword == true) {
 					out.write("success");
 				} else {

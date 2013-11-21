@@ -3,10 +3,11 @@ package formulaire;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.Date;
+
 import javax.servlet.http.*;
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
+
+import dao.UserDao;
+
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -14,6 +15,8 @@ import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+
+import model.User;
 
 @SuppressWarnings("serial")
 public class FormulaireServlet extends HttpServlet {
@@ -26,7 +29,7 @@ public class FormulaireServlet extends HttpServlet {
 		
 		if (cmd != null) {
 			if ("PostInfo".equals(cmd)) {
-				//RÃ©cupÃ©ration des donnÃ©es saisies
+				//Récupération des données saisies
 				String nom = req.getParameter("nom");
 				String prenom = req.getParameter("prenom");
 				String age = req.getParameter("age");
@@ -34,7 +37,7 @@ public class FormulaireServlet extends HttpServlet {
 				String login = req.getParameter("login");
 				//String password = req.getParameter("password");
 				
-				//GÃ©nÃ©ration du mot de passe
+				//Génération du mot de passe
 				String chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
 			    String pass = "";
 			    for(int x=0;x<8;x++)
@@ -42,17 +45,19 @@ public class FormulaireServlet extends HttpServlet {
 			       int i = (int)Math.floor(Math.random() * 62);
 			       pass += chars.charAt(i);
 			    }
-			    System.out.println(pass);
 				
 			    Date dateCreaAccount = new Date();
 				
 			    
 				if (nom != null && prenom != null && age != null && email != null && login != null) {
 					//Enregistrement de l'utilisateur dans le DataStore
-					DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+					//DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 					
+					User userToAdd = new User(email, login, pass, prenom, prenom, "N", Integer.parseInt(age), dateCreaAccount, dateCreaAccount, -1);
+					UserDao.addUser(userToAdd);
+					
+					/*
 					Entity user = new Entity("user");
-					
 					user.setProperty("nom", nom);
 					user.setProperty("prenom", prenom);
 					user.setProperty("age", age);
@@ -62,9 +67,9 @@ public class FormulaireServlet extends HttpServlet {
 					user.setProperty("creationAccount", dateCreaAccount);
 					user.setProperty("lastConnexionDate", dateCreaAccount);
 					user.setProperty("lastConnexionTime", "0");
-					user.setProperty("admin", "N");
-					
+					user.setProperty("admin", "Y");
 					datastore.put(user);
+					*/
 					
 					//Envoie du mail
 					Properties props = new Properties();
