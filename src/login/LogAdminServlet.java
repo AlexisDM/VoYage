@@ -49,9 +49,7 @@ public class LogAdminServlet extends HttpServlet {
 						session.setAttribute("lastConnexionTime", user.getLastConnectionTime());
 						session.setAttribute("nom", user.getNom());
 						session.setAttribute("prenom", user.getPrenom());
-						
-						
-						session.setAttribute("id", user.getId().getId());
+						session.setAttribute("id", user.getId());
 						
 					}
 					catch(Exception e)

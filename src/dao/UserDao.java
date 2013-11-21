@@ -80,6 +80,8 @@ public class UserDao {
 					lastConnexionTimedb);
 		}
 		
+		
+		
 		if (myuser.getId() != null ) {
 			Entity user = null;
 			try {

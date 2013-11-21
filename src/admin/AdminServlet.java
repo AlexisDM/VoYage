@@ -14,6 +14,7 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 
 
 @SuppressWarnings("serial")
@@ -35,8 +36,7 @@ public class AdminServlet extends HttpServlet {
 				
 				boolean isOk = false;
 				
-				System.out.println(session.getAttribute("id"));
-				Key id = (Key) session.getAttribute("id");
+				Key id = KeyFactory.stringToKey(session.getAttribute("id").toString());
 				
 
 				if (id != null ) {
