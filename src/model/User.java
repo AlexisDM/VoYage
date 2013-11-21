@@ -16,6 +16,9 @@ public class User {
 	Date creationAccount;
 	Date lastConnectionDate;
 	double lastConnectionTime;
+	
+	public User() {
+	}
 
 	public User(Key id, String email, String login, String password, String prenom,
 			String nom, String admin, int age, Date creationAccount, Date lastConnectionDate,
