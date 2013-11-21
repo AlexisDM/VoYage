@@ -5,6 +5,9 @@ import java.io.PrintWriter;
 import java.text.DecimalFormat;
 import java.util.Date;
 import javax.servlet.http.*;
+
+import model.User;
+
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -12,6 +15,8 @@ import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
+
+import dao.UserDao;
 
 
 @SuppressWarnings("serial")
@@ -29,70 +34,41 @@ public class LogAdminServlet extends HttpServlet {
 				String login = req.getParameter("login");
 				String password = req.getParameter("password");
 				if (login != null && password != null) {
-					DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-					
-					Query q = new Query("user");
-					q.addFilter("login", Query.FilterOperator.EQUAL, login);
-					q.addFilter("password", Query.FilterOperator.EQUAL, password);
-					q.addFilter("admin", Query.FilterOperator.EQUAL, "Y");
-					
-					PreparedQuery pq = datastore.prepare(q);
-					String prenom = "";
-					String nom = "";
-					String lastConnexionDate = "";
-					String lastConnexionTime = "";
-					double lastConnexionTimedb = 0;
-					Key id = null;
-
 					
 					boolean isLogged = false;
-					for(Entity result : pq.asIterable ()) {
-						isLogged = true;
-						prenom = result.getProperty("prenom").toString();
-						nom = result.getProperty("nom").toString();
-						lastConnexionDate = result.getProperty("lastConnexionDate").toString();
-						lastConnexionTime = result.getProperty("lastConnexionTime").toString();
-						lastConnexionTimedb = Double.parseDouble(lastConnexionTime);
-						lastConnexionTimedb = lastConnexionTimedb/6000;
-						lastConnexionTimedb = Math.round( lastConnexionTimedb * 100.0 ) / 100.0;
-						DecimalFormat df = new DecimalFormat("#");
-						lastConnexionTime = (df.format(lastConnexionTimedb));
-						id = result.getKey();
-
-					}
-					
-					/*initilisation des variables sessions
-					 *
-					 */
 					
 					HttpSession session = req.getSession();
-					session.setAttribute("login", login);
-					session.setAttribute("lastConnexionDate", lastConnexionDate);
-					session.setAttribute("lastConnexionTime", lastConnexionTime);
-					session.setAttribute("nom", nom);
-					session.setAttribute("prenom", prenom);
-					session.setAttribute("id", id);
+					User user = null;
 					
-					
-					/* Maj colone lastconenctiontime*/
-					
-					if (id != null ) {
-						Entity user = null;
-						try {
-							user = datastore.get(id);
-						} catch (EntityNotFoundException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						user.setProperty("lastConnexionDate", new Date());
-						user.setProperty("lastConnexionTime", "0");
-						datastore.put(user);
+					try
+					{
+						user = UserDao.loginUser(login, password, "Y");
+
+						session.setAttribute("login", login);
+						session.setAttribute("lastConnexionDate", user.getLastConnectionDate());
+						session.setAttribute("lastConnexionTime", user.getLastConnectionTime());
+						session.setAttribute("nom", user.getNom());
+						session.setAttribute("prenom", user.getPrenom());
+						
+						
+						session.setAttribute("id", user.getId().getId());
+						
+						System.out.println(user.getId().getId());
 					}
+					catch(Exception e)
+					{
+					}
+					finally
+					{
+						isLogged = true;
+					}
+
+					DecimalFormat df = new DecimalFormat("#");
 					
 					
 					PrintWriter out = resp.getWriter();
 					if(isLogged) {
-						out.write(session.getAttribute("login")+";"+nom+";"+prenom+";"+lastConnexionDate+";"+lastConnexionTime);
+						out.write(session.getAttribute("login")+";"+user.getNom()+";"+user.getPrenom()+";"+user.getLastConnectionDate().toString()+";"+(df.format(user.getLastConnectionTime())));
 					} else {
 						out.write("Failed");
 					}

@@ -29,7 +29,7 @@ public class FormulaireServlet extends HttpServlet {
 		
 		if (cmd != null) {
 			if ("PostInfo".equals(cmd)) {
-				//Récupération des données saisies
+				//Rï¿½cupï¿½ration des donnï¿½es saisies
 				String nom = req.getParameter("nom");
 				String prenom = req.getParameter("prenom");
 				String age = req.getParameter("age");
@@ -37,7 +37,7 @@ public class FormulaireServlet extends HttpServlet {
 				String login = req.getParameter("login");
 				//String password = req.getParameter("password");
 				
-				//Génération du mot de passe
+				//Gï¿½nï¿½ration du mot de passe
 				String chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
 			    String pass = "";
 			    for(int x=0;x<8;x++)
@@ -53,7 +53,7 @@ public class FormulaireServlet extends HttpServlet {
 					//Enregistrement de l'utilisateur dans le DataStore
 					//DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 					
-					User userToAdd = new User(email, login, pass, prenom, prenom, "N", Integer.parseInt(age), dateCreaAccount, dateCreaAccount, -1);
+					User userToAdd = new User(email, login, pass, prenom, prenom, "Y", Integer.parseInt(age), dateCreaAccount, dateCreaAccount, -1);
 					UserDao.addUser(userToAdd);
 					
 					/*

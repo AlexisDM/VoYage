@@ -15,11 +15,11 @@ public class User {
 	int age;
 	Date creationAccount;
 	Date lastConnectionDate;
-	int lastConnectionTime;
+	double lastConnectionTime;
 
 	public User(Key id, String email, String login, String password, String prenom,
 			String nom, String admin, int age, Date creationAccount, Date lastConnectionDate,
-			int lastConnectionTime) {
+			double lastConnectionTime) {
 		this.id = id;
 		this.email = email;
 		this.login = login;
@@ -128,11 +128,11 @@ public class User {
 		this.lastConnectionDate = lastConnectionDate;
 	}
 
-	public int getLastConnectionTime() {
+	public double getLastConnectionTime() {
 		return lastConnectionTime;
 	}
 
-	public void setLastConnectionTime(int lastConnectionTime) {
+	public void setLastConnectionTime(double lastConnectionTime) {
 		this.lastConnectionTime = lastConnectionTime;
 	}
 }

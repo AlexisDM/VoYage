@@ -1,8 +1,18 @@
 package dao;
 
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
 
 import model.User;
 
@@ -24,5 +34,65 @@ public class UserDao {
 		entityUser.setProperty("admin", user.getAdmin());
 		
 		datastore.put(entityUser);
+	}
+	
+	public static User loginUser(String reqLogin, String reqPassword, String reqAdmin) {
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		
+		Query q = new Query("user");
+		q.addFilter("login", Query.FilterOperator.EQUAL, reqLogin);
+		q.addFilter("password", Query.FilterOperator.EQUAL, reqPassword);
+		if (reqAdmin.equals("Y"))
+		{
+			q.addFilter("admin", Query.FilterOperator.EQUAL, reqAdmin);	
+		}
+		
+		PreparedQuery pq = datastore.prepare(q);
+		
+		SimpleDateFormat format=new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy",Locale.US);
+		Date convertedDateCreation = null;	
+		Date convertedDateConnexion = null;	
+		
+		User myuser = null;
+
+		for(Entity result : pq.asIterable ()) {
+			
+			String lastConnexionTime = "";
+			double lastConnexionTimedb = 0;
+			lastConnexionTime = result.getProperty("lastConnexionTime").toString();
+			lastConnexionTimedb = Double.parseDouble(lastConnexionTime);
+			lastConnexionTimedb = lastConnexionTimedb/6000;
+			lastConnexionTimedb = Math.round( lastConnexionTimedb * 100.0 ) / 100.0;
+			
+			try {
+			convertedDateCreation = format.parse(result.getProperty("creationAccount").toString());
+			convertedDateConnexion = format.parse(result.getProperty("lastConnexionDate").toString());
+			}
+			catch(Exception e)
+			{
+			}
+		
+			myuser = new User(result.getKey(), result.getProperty("email").toString(), 
+					result.getProperty("login").toString(), result.getProperty("password").toString(), 
+					result.getProperty("prenom").toString(), result.getProperty("nom").toString(), 
+					result.getProperty("admin").toString(), Integer.parseInt(result.getProperty("age").toString()), 
+					convertedDateCreation, convertedDateConnexion, 
+					lastConnexionTimedb);
+		}
+		
+		if (myuser.getId() != null ) {
+			Entity user = null;
+			try {
+				user = datastore.get(myuser.getId());
+			} catch (EntityNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			user.setProperty("lastConnexionDate", new Date());
+			user.setProperty("lastConnexionTime", "0");
+			datastore.put(user);
+		}
+		
+		return myuser;
 	}
 }
