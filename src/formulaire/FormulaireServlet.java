@@ -76,7 +76,7 @@ public class FormulaireServlet extends HttpServlet {
 			        Session session = Session.getDefaultInstance(props, null);
 
 			        String msgBody = "Bienvenue sur VoYage!!\n"
-			        		+ "Votre compte a bien Ã©tÃ© crÃ©Ã©.\n"
+			        		+ "Votre compte a bien été créé.\n"
 			        		+ "Votre mot de passe est : "+pass+"\n"
 			        		+ "Vous pourrez le modifier lors de votre prochaine connexion.";
 
