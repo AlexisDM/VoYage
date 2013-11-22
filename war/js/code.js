@@ -228,6 +228,21 @@ function funcEditUser(param) {
 		});  
 }
 
+function funcDeleteUser(param) {
+	$.post("ManageUsers",
+		{
+			cmd:"DeleteUser",
+			id:param
+		},
+		function(data,status){
+			if(data == "Failed") {
+				alert("Error accessing other page")
+			} else {
+				window.location.href = 'manageusers.html?login='.concat(data.login).concat("&nom=").concat(data.nom).concat("&prenom=").concat(data.prenom).concat("&lastConnexionDate=").concat(data.lastConnexionDate).concat("&lastConnexionTime=").concat(data.lastConnexionTime);
+			}
+		});  
+}
+
 function getURLParameter(name) {
     return decodeURI(
         (RegExp(name + '=' + '(.+?)(&|$)').exec(location.search)||[,null])[1]

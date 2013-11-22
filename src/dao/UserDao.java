@@ -172,6 +172,15 @@ public class UserDao {
 		
 	}
 	
+	public static void DeleteUser(User user)
+	{
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		
+		datastore.delete(user.getId());
+
+		
+	}
+	
 	private static Date stringToDate(String origine)
 	{
 		Date out = null;
@@ -187,6 +196,8 @@ public class UserDao {
 		
 		return out;
 	}
+	
+	
 	
 	private static double stringToDouble(String origine)
 	{

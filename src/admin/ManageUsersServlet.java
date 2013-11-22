@@ -205,6 +205,50 @@ public class ManageUsersServlet extends HttpServlet {
 				
 
 			}
+			
+			if ("DeleteUser".equals(cmd)) {
+				String id = req.getParameter("id");
+				boolean isOk = false;
+
+				Key userid = KeyFactory.stringToKey(id);
+				
+				User user = new User(KeyFactory.stringToKey(id), new String(""), new String(""), 
+						new String(""), new String(""), 
+						new String(""), new String(""), 0, 
+						new Date(), new Date(), 0);
+
+				try
+				{
+					UserDao.DeleteUser(user);
+				}
+				catch (Exception e)
+				{
+				}
+				finally
+				{
+					isOk = true;
+				}
+				
+					Map<String, String> oneuser = new HashMap<String, String>();
+					
+					HttpSession session = req.getSession();
+					oneuser.put("login", session.getAttribute("login").toString());
+					oneuser.put("nom", session.getAttribute("nom").toString());
+					oneuser.put("prenom", session.getAttribute("prenom").toString());
+					oneuser.put("lastConnexionDate", session.getAttribute("lastConnexionDate").toString());
+					oneuser.put("lastConnexionTime", session.getAttribute("lastConnexionTime").toString());
+					
+
+					PrintWriter out = resp.getWriter();
+					if (isOk) {
+						out.write(new Gson().toJson(oneuser));
+					} else {
+						out.write("Failed");
+					}
+
+				
+
+			}
 		}
 	}
 }
