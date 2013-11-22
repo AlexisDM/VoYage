@@ -2,23 +2,12 @@ package admin;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.DateFormat;
 import java.text.DecimalFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.logging.Level;
-
-import javax.cache.Cache;
-import javax.cache.CacheException;
-import javax.cache.CacheFactory;
-import javax.cache.CacheManager;
 import javax.servlet.http.*;
 
 import model.User;
@@ -29,12 +18,6 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
-import com.google.appengine.api.memcache.ErrorHandlers;
-import com.google.appengine.api.memcache.MemcacheService;
-import com.google.appengine.api.memcache.MemcacheServiceFactory;
-import com.google.appengine.api.memcache.jsr107cache.GCacheFactory;
 import com.google.gson.Gson;
 
 import dao.UserDao;
@@ -45,7 +28,6 @@ public class ManageUsersServlet extends HttpServlet {
 			throws IOException {
 	}
 
-	@SuppressWarnings({ "deprecation", "unchecked", "rawtypes", "unused" })
 	public void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
 		String cmd = req.getParameter("cmd");
@@ -121,11 +103,6 @@ public class ManageUsersServlet extends HttpServlet {
 						e.printStackTrace();
 					}
 
-					String prenom = "";
-					String nom = "";
-					String age = "";
-					String creationAccount = "";
-					String lastConnexionDate = "";
 					String lastConnexionTime = "";
 					double lastConnexionTimedb = 0;
 
@@ -166,7 +143,7 @@ public class ManageUsersServlet extends HttpServlet {
 				String id = req.getParameter("id");
 				boolean isOk = false;
 
-				Key userid = KeyFactory.stringToKey(id);
+				KeyFactory.stringToKey(id);
 				
 				User user = new User(KeyFactory.stringToKey(id), req.getParameter("email"), new String(""), 
 						req.getParameter("password"), req.getParameter("prenom"), 
@@ -210,7 +187,7 @@ public class ManageUsersServlet extends HttpServlet {
 				String id = req.getParameter("id");
 				boolean isOk = false;
 
-				Key userid = KeyFactory.stringToKey(id);
+				KeyFactory.stringToKey(id);
 				
 				User user = new User(KeyFactory.stringToKey(id), new String(""), new String(""), 
 						new String(""), new String(""), 

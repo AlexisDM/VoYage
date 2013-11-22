@@ -3,20 +3,11 @@ package login;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DecimalFormat;
-import java.util.Date;
 import javax.servlet.http.*;
 
 import model.User;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.EntityNotFoundException;
-import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
-
 import dao.UserDao;
 
 
@@ -26,7 +17,6 @@ public class LogAdminServlet extends HttpServlet {
 			throws IOException {
 	}
 	
-	@SuppressWarnings({ "deprecation" })
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		String cmd = req.getParameter("cmd");
 		

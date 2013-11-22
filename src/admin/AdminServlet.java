@@ -2,8 +2,6 @@ package admin;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -11,11 +9,6 @@ import javax.servlet.http.*;
 
 import model.User;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.EntityNotFoundException;
-import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 
 import dao.UserDao;
@@ -28,7 +21,6 @@ public class AdminServlet extends HttpServlet {
 	}
 	
 	
-	@SuppressWarnings("unused")
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		String cmd = req.getParameter("cmd");
 		
