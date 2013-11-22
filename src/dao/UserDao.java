@@ -1,10 +1,14 @@
 package dao;
 
-import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -36,6 +40,7 @@ public class UserDao {
 		datastore.put(entityUser);
 	}
 	
+	@SuppressWarnings("deprecation")
 	public static User loginUser(String reqLogin, String reqPassword, String reqAdmin) {
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		
@@ -49,34 +54,16 @@ public class UserDao {
 		
 		PreparedQuery pq = datastore.prepare(q);
 		
-		SimpleDateFormat format=new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy",Locale.US);
-		Date convertedDateCreation = null;	
-		Date convertedDateConnexion = null;	
-		
 		User myuser = null;
 
 		for(Entity result : pq.asIterable ()) {
 			
-			String lastConnexionTime = "";
-			double lastConnexionTimedb = 0;
-			lastConnexionTime = result.getProperty("lastConnexionTime").toString();
-			lastConnexionTimedb = Double.parseDouble(lastConnexionTime);
-			lastConnexionTimedb = lastConnexionTimedb/6000;
-			lastConnexionTimedb = Math.round( lastConnexionTimedb * 100.0 ) / 100.0;
-			
-			try {
-			convertedDateCreation = format.parse(result.getProperty("creationAccount").toString());
-			convertedDateConnexion = format.parse(result.getProperty("lastConnexionDate").toString());
-			}
-			catch(Exception e)
-			{
-			}
 			myuser = new User(result.getKey(), result.getProperty("email").toString(), 
 					result.getProperty("login").toString(), result.getProperty("password").toString(), 
 					result.getProperty("prenom").toString(), result.getProperty("nom").toString(), 
 					result.getProperty("admin").toString(), Integer.parseInt(result.getProperty("age").toString()), 
-					convertedDateCreation, convertedDateConnexion, 
-					lastConnexionTimedb);
+					stringToDate(result.getProperty("creationAccount").toString()), stringToDate(result.getProperty("lastConnexionDate").toString()), 
+					stringToDouble(result.getProperty("lastConnexionTime").toString()));
 		}
 
 		if (myuser.getId() != null ) {
@@ -121,5 +108,94 @@ public class UserDao {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public static List<User> loadUsers()
+	{
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		
+		List<User> users = new ArrayList<User>();
+		
+		Query q = new Query("user");
+
+		PreparedQuery pq = datastore.prepare(q);
+
+		for (Entity result : pq.asIterable()) {
+			
+			User oneuser = new User(result.getKey(), result.getProperty("email").toString(),
+					result.getProperty("login").toString(), result.getProperty("password").toString(), 
+					result.getProperty("prenom").toString(), result.getProperty("nom").toString(),
+					result.getProperty("admin").toString(), Integer.parseInt(result.getProperty("age").toString()), 
+					stringToDate(result.getProperty("creationAccount").toString()), stringToDate(result.getProperty("lastConnexionDate").toString()),
+					stringToDouble(result.getProperty("lastConnexionTime").toString()));
+			
+			users.add(oneuser);
+			}
+		
+		return users;
+	
+	}
+	
+	public static void UpdateUser(User user)
+	{
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		
+		Entity newuser = null;
+		try {
+			newuser = datastore.get(user.getId());
+
+		} catch (EntityNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally
+		{
+			if (!user.getNom().equals("")) {
+				newuser.setProperty("nom", user.getNom());
+			}
+
+			if (!user.getPrenom().equals("")) {
+				newuser.setProperty("prenom", user.getPrenom());
+			}
+			
+			newuser.setProperty("age", String.valueOf(user.getAge()));
+			
+			if (!user.getEmail().equals("")) {
+				newuser.setProperty("email",user.getEmail());
+			}
+			if (!user.getPassword().equals("")) {
+				newuser.setProperty("password",user.getPassword());
+			}
+			datastore.put(newuser);
+		}
+		
+		
+	}
+	
+	private static Date stringToDate(String origine)
+	{
+		Date out = null;
+		
+		SimpleDateFormat format=new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy",Locale.US);
+		
+		try {
+			out = format.parse(origine);
+			}
+			catch(Exception e)
+			{
+			}
+		
+		return out;
+	}
+	
+	private static double stringToDouble(String origine)
+	{
+		double out = 0;
+		
+		out = Double.parseDouble(origine);
+		out = out/6000;
+		out = Math.round( out * 100.0 ) / 100.0;
+		
+		return out;
 	}
 }

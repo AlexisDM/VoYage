@@ -21,6 +21,8 @@ import javax.cache.CacheFactory;
 import javax.cache.CacheManager;
 import javax.servlet.http.*;
 
+import model.User;
+
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -35,6 +37,8 @@ import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.google.appengine.api.memcache.jsr107cache.GCacheFactory;
 import com.google.gson.Gson;
 
+import dao.UserDao;
+
 @SuppressWarnings("serial")
 public class ManageUsersServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -48,49 +52,47 @@ public class ManageUsersServlet extends HttpServlet {
 
 		resp.setContentType("application/json");
 
-		DatastoreService datastore = DatastoreServiceFactory
-				.getDatastoreService();
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
 		if (cmd != null) {
 			if ("LoadUsers".equals(cmd)) {
 
 				boolean isOk = false;
 
-				Query q = new Query("user");
-
-				PreparedQuery pq = datastore.prepare(q);
-				String lastConnexionTime = "";
-				double lastConnexionTimedb = 0;
-
+	
 				Map<String, String> oneuser = null;
 				List<Map<String, String>> users = new ArrayList<Map<String, String>>();
 
-				for (Entity result : pq.asIterable()) {
-					oneuser = new HashMap<String, String>();
-					oneuser.put("id", KeyFactory.keyToString(result.getKey()));
-					oneuser.put("login", result.getProperty("login").toString());
-					oneuser.put("nom", result.getProperty("nom").toString());
-					oneuser.put("prenom", result.getProperty("prenom")
-							.toString());
-					oneuser.put("age", result.getProperty("age").toString());
-					oneuser.put("email", result.getProperty("email").toString());
-					oneuser.put("creationAccount",
-							result.getProperty("creationAccount").toString());
-					oneuser.put("lastConnexionDate",
-							result.getProperty("lastConnexionDate").toString());
-					lastConnexionTime = result.getProperty("lastConnexionTime")
-							.toString();
-					lastConnexionTimedb = Double.parseDouble(lastConnexionTime);
-					lastConnexionTimedb = lastConnexionTimedb / 6000;
-					lastConnexionTimedb = Math
-							.round(lastConnexionTimedb * 100.0) / 100.0;
-					DecimalFormat df = new DecimalFormat("#");
-					oneuser.put("lastConnexionTime",
-							(df.format(lastConnexionTimedb)));
-					users.add(oneuser);
-
-					isOk = true;
+				List<User> rep = null;
+								
+				try
+				{
+					rep =UserDao.loadUsers();
 				}
+				catch (Exception e)
+				{
+					
+				}
+				finally
+				{
+					for(User u : rep)
+					{
+						oneuser = new HashMap<String, String>();
+						oneuser.put("id", KeyFactory.keyToString(u.getId()));
+						oneuser.put("login", u.getLogin());
+						oneuser.put("nom", u.getNom());
+						oneuser.put("prenom", u.getPrenom());
+						oneuser.put("age", String.valueOf(u.getAge()));
+						oneuser.put("email", u.getEmail());
+						oneuser.put("creationAccount", u.getCreationAccount().toString());
+						oneuser.put("lastConnexionDate",u.getLastConnectionDate().toString());
+						oneuser.put("lastConnexionTime", String.valueOf(u.getLastConnectionTime()));
+						users.add(oneuser);
+					}
+					
+					isOk=true;
+				}
+
 
 				PrintWriter out = resp.getWriter();
 				if (isOk) {
@@ -165,34 +167,24 @@ public class ManageUsersServlet extends HttpServlet {
 				boolean isOk = false;
 
 				Key userid = KeyFactory.stringToKey(id);
+				
+				User user = new User(KeyFactory.stringToKey(id), req.getParameter("email"), new String(""), 
+						req.getParameter("password"), req.getParameter("prenom"), 
+						req.getParameter("nom"), new String(""), Integer.parseInt(req.getParameter("age")), 
+						new Date(), new Date(), 0);
 
-				if (id != null) {
-					Entity user = null;
-					try {
-						user = datastore.get(userid);
-					} catch (EntityNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-
-					if (!req.getParameter("nom").equals("")) {
-						user.setProperty("nom", req.getParameter("nom"));
-					}
-
-					if (!req.getParameter("prenom").equals("")) {
-						user.setProperty("prenom", req.getParameter("prenom"));
-					}
-					user.setProperty("age", req.getParameter("age"));
-					if (!req.getParameter("email").equals("")) {
-						user.setProperty("email", req.getParameter("email"));
-					}
-					if (!req.getParameter("password").equals("")) {
-						user.setProperty("password",
-								req.getParameter("password"));
-					}
-					datastore.put(user);
+				try
+				{
+					UserDao.UpdateUser(user);
+				}
+				catch (Exception e)
+				{
+				}
+				finally
+				{
 					isOk = true;
-					
+				}
+				
 					Map<String, String> oneuser = new HashMap<String, String>();
 					
 					HttpSession session = req.getSession();
@@ -210,7 +202,7 @@ public class ManageUsersServlet extends HttpServlet {
 						out.write("Failed");
 					}
 
-				}
+				
 
 			}
 		}
