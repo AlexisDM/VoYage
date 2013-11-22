@@ -1,7 +1,7 @@
 package dao;
 
 import java.text.DateFormat;
-import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -10,7 +10,6 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
-import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
@@ -72,7 +71,6 @@ public class UserDao {
 			catch(Exception e)
 			{
 			}
-			System.out.println(KeyFactory.keyToString(result.getKey()));
 			myuser = new User(result.getKey(), result.getProperty("email").toString(), 
 					result.getProperty("login").toString(), result.getProperty("password").toString(), 
 					result.getProperty("prenom").toString(), result.getProperty("nom").toString(), 
@@ -80,9 +78,7 @@ public class UserDao {
 					convertedDateCreation, convertedDateConnexion, 
 					lastConnexionTimedb);
 		}
-		
-		
-		
+
 		if (myuser.getId() != null ) {
 			Entity user = null;
 			try {
@@ -97,5 +93,33 @@ public class UserDao {
 		}
 		
 		return myuser;
+	}
+	
+	public static void logoutUser(User myUser)
+	{
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		
+		SimpleDateFormat format=new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy",Locale.US);
+	    Date convertedDate;	
+		
+		if (myUser.getId() != null ) {
+			Entity user = null;
+			try {
+				user = datastore.get(myUser.getId());
+				
+				String lastConnexionDate = user.getProperty("lastConnexionDate").toString();
+				try {
+					convertedDate = format.parse(lastConnexionDate);
+					user.setProperty("lastConnexionTime", new Date().getTime() - convertedDate.getTime());
+					datastore.put(user);
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}			
+			} catch (EntityNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 }
