@@ -282,6 +282,21 @@ function funcCreateUser() {
 
 }
 
+function funcManageFlights() {
+	$.post("Admin",
+		{
+			cmd:"ManageFlights"
+		},
+		function(data,status){
+			if(data == "Failed") {
+				alert("Error accessing other page")
+			} else {
+				var tab = new Array();
+				tab = data.split(";");
+				window.location.href = 'manageflights.html?login='.concat(tab[0]).concat("&nom=").concat(tab[1]).concat("&prenom=").concat(tab[2]).concat("&lastConnexionDate=").concat(tab[3]).concat("&lastConnexionTime=").concat(tab[4]);
+			}
+		});  
+}
 
 function funcLoadFlights() {
 	$.post("ManageFlights",
@@ -309,17 +324,15 @@ function funcLoadFlights() {
 				  var cell6=row.insertCell(5);
 				  var cell7=row.insertCell(6);
 				  var cell8=row.insertCell(7);
-				  var cell9=row.insertCell(8);
 				  
-				  cell1.innerHTML = data[x].login;
-				  cell2.innerHTML = data[x].nom;
-				  cell3.innerHTML = data[x].prenom;
-				  cell4.innerHTML = data[x].age;
-				  cell5.innerHTML = data[x].email;
-				  cell6.innerHTML = data[x].creationAccount;
-				  cell7.innerHTML = data[x].lastConnexionDate;
-				  cell8.innerHTML = data[x].lastConnexionTime;
-				  cell9.innerHTML = "<button id=\"btnEdit\" onclick=\"funcEditFlight('".concat(data[x].id).concat("');\">Edit</button>").concat("<button id=\"btnDelete\" onclick=\"funcDeleteFlight('").concat(data[x].id).concat("');\">Delete</button>");
+				  cell1.innerHTML = data[x].from;
+				  cell2.innerHTML = data[x].to;
+				  cell3.innerHTML = data[x].dateDeparture;
+				  cell4.innerHTML = data[x].dateArrival;
+				  cell5.innerHTML = data[x].hours;
+				  cell6.innerHTML = data[x].seats;
+				  cell7.innerHTML = data[x].price;
+				  cell8.innerHTML = "<button id=\"btnEdit\" onclick=\"funcEditFlight('".concat(data[x].id).concat("');\">Edit</button>").concat("<button id=\"btnDelete\" onclick=\"funcDeleteFlight('").concat(data[x].id).concat("');\">Delete</button>");
 				  }
 				
 				 var row=table.insertRow(0);
@@ -331,17 +344,15 @@ function funcLoadFlights() {
 				 var cell6=row.insertCell(5);
 				 var cell7=row.insertCell(6);
 				 var cell8=row.insertCell(7);
-				 var cell9=row.insertCell(8);
 				  
-				 cell1.innerHTML = "<b>Login</b>";
-				 cell2.innerHTML = "<b>Last Name</b>";
-				 cell3.innerHTML = "<b>First Name</b>";
-				 cell4.innerHTML = "<b>Age</b>";
-				 cell5.innerHTML = "<b>E-mail</b>";
-				 cell6.innerHTML = "<b>Creation Date</b>";
-				 cell7.innerHTML = "<b>Last Connexion Date</b>";
-				 cell8.innerHTML = "<b>Last Connexion Time</b>";
-				 cell9.innerHTML = "<b>Action</b>";
+				 cell1.innerHTML = "<b>From</b>";
+				 cell2.innerHTML = "<b>To</b>";
+				 cell3.innerHTML = "<b>Date of departure</b>";
+				 cell4.innerHTML = "<b>Date of arrival</b>";
+				 cell5.innerHTML = "<b>Duration</b>";
+				 cell6.innerHTML = "<b>Number or seats</b>";
+				 cell7.innerHTML = "<b>Price</b>";
+				 cell8.innerHTML = "<b>Action</b>";
 
 
 			}

@@ -83,6 +83,17 @@ public class AdminServlet extends HttpServlet {
 
 			
 			}
+			
+			if ("ManageFlights".equals(cmd)) {
+				
+				HttpSession session = req.getSession();
+
+				PrintWriter out = resp.getWriter();
+
+				out.write(session.getAttribute("login")+";"+session.getAttribute("nom")+";"+session.getAttribute("prenom")+";"+session.getAttribute("lastConnexionDate")+";"+session.getAttribute("lastConnexionTime"));
+
+			
+			}
 		}
 	}
 }

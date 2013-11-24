@@ -11,6 +11,7 @@ import java.util.Map;
 
 import javax.servlet.http.*;
 
+import model.Flight;
 import model.User;
 
 import com.google.appengine.api.datastore.DatastoreService;
@@ -21,6 +22,7 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.gson.Gson;
 
+import dao.FlightDao;
 import dao.UserDao;
 
 @SuppressWarnings("serial")
@@ -41,43 +43,34 @@ public class ManageFlightsServlet extends HttpServlet {
 				boolean isOk = false;
 
 	
-				Map<String, String> oneuser = null;
-				List<Map<String, String>> users = new ArrayList<Map<String, String>>();
+				Map<String, String> oneflight = null;
+				List<Map<String, String>> flights = new ArrayList<Map<String, String>>();
 
-				List<User> rep = null;
+				List<Flight> rep = null;
 								
-				try
-				{
-					rep =UserDao.loadUsers();
-				}
-				catch (Exception e)
-				{
-					
-				}
-				finally
-				{
-					for(User u : rep)
+					rep = FlightDao.loadFlights();
+				
+					for(Flight f : rep)
 					{
-						oneuser = new HashMap<String, String>();
-						oneuser.put("id", KeyFactory.keyToString(u.getId()));
-						oneuser.put("login", u.getLogin());
-						oneuser.put("nom", u.getNom());
-						oneuser.put("prenom", u.getPrenom());
-						oneuser.put("age", String.valueOf(u.getAge()));
-						oneuser.put("email", u.getEmail());
-						oneuser.put("creationAccount", u.getCreationAccount().toString());
-						oneuser.put("lastConnexionDate",u.getLastConnectionDate().toString());
-						oneuser.put("lastConnexionTime", String.valueOf(u.getLastConnectionTime()));
-						users.add(oneuser);
+						oneflight = new HashMap<String, String>();
+						oneflight.put("id", KeyFactory.keyToString(f.getId()));
+						oneflight.put("from", f.getFrom());
+						oneflight.put("to", f.getTo());
+						oneflight.put("dateDeparture", f.getDeparture().toString());
+						oneflight.put("dateArrival", f.getArrival().toString());
+						oneflight.put("seats", String.valueOf(f.getSeats()));
+						oneflight.put("price", String.valueOf(f.getPrice()));
+						oneflight.put("hours",String.valueOf(f.getHours()));
+						flights.add(oneflight);
 					}
 					
 					isOk=true;
-				}
+				
 
 
 				PrintWriter out = resp.getWriter();
 				if (isOk) {
-					out.write(new Gson().toJson(users));
+					out.write(new Gson().toJson(flights));
 				} else {
 					out.write("Failed");
 				}

@@ -26,6 +26,18 @@ public class Flight {
 		this.departure = departure;
 		this.hours = hours;
 	}
+	
+	public Flight(String from, String to, int price, int seats,
+			Date arrival, Date departure, int hours) {
+		super();
+		this.from = from;
+		this.to = to;
+		this.price = price;
+		this.seats = seats;
+		this.arrival = arrival;
+		this.departure = departure;
+		this.hours = hours;
+	}
 
 	public Key getId() {
 		return id;

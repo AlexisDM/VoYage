@@ -232,7 +232,7 @@ public class ManageUsersServlet extends HttpServlet {
 					
 					try {
 						
-						User userToAdd = new User(email, login, password, prenom, nom, admin, Integer.parseInt(age), dateCreaAccount, dateCreaAccount, -1);
+						User userToAdd = new User(email, login, password, prenom, nom, admin, Integer.parseInt(age), dateCreaAccount, dateCreaAccount, -6000);
 						UserDao.addUser(userToAdd);
 					}
 					catch(Exception e){
