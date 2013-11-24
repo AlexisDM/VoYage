@@ -1,7 +1,5 @@
 package dao;
 
-import java.text.DecimalFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,12 +11,12 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
-
+import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.FilterOperator;
+import com.google.appengine.api.datastore.Query.FilterPredicate;
 import model.Flight;
-import model.User;
 
 public class FlightDao {
 	public static void addFlight(Flight flight) {
@@ -157,5 +155,24 @@ public class FlightDao {
 		out = Math.round( out * 100.0 ) / 100.0;
 		
 		return out;
+	}
+
+	@SuppressWarnings("unused")
+	public static int numUsersConnected() {
+		int usersCo = 0;
+		
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		
+		Filter usersConnected = new FilterPredicate("lastConnexionTime", FilterOperator.EQUAL, "0");
+		Query q = new Query("user");
+		q.setFilter(usersConnected);
+		
+		PreparedQuery pq = datastore.prepare(q);
+
+		for(Entity result : pq.asIterable ()) {
+			usersCo++;
+		}
+
+		return usersCo;
 	}
 }

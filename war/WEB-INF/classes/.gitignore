@@ -1,11 +1,8 @@
-/dao
-/model
-/formulaire
+/META-INF
 /admin
-<<<<<<< HEAD
-=======
-/login
-/formulaire
-/model
+/dao
 /flight
->>>>>>> b878d62bf528b96fabe2a5d435056392ed2e3ce7
+/formulaire
+/log4j.properties
+/login
+/model

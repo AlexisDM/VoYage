@@ -1,86 +1,119 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
+<!doctype html>
+<html lang="en">
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-		<title>VoYage</title>
-    
+		<title>VoYage</title>		
 		<script src="js/codiqa.ext.js" type="text/javascript"></script>
 		<script src="js/code.js" type="text/javascript"></script>
-		<script src="https://d10ajoocuyu32n.cloudfront.net/jquery-1.9.1.min.js" type="text/javascript"></script>
+		
+		<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css">
+		<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+		<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+		<link rel="stylesheet" href="/resources/demos/style.css">
+		<script>
+			$(function() {
+				$("#fli_departure").datepicker({ dateFormat: 'dd/mm/yy' });
+			});
+		</script>
 	</head>
-
-	<body onload="funcGetFlights()">
+	<body onload="funcInitializeHeader()">
 		<div id=header>
 			<div>Voyage</div>
-			<div id="numUserConnected">5 users connected</div>
-			<div id="">
-				<a href="#">Jdoe</a><br />
-				<a href="#">Historical</a>
+			<div id="numUserConnected"></div>
+			<div>
+				<a id="linkToProfile" href="edituser.html">JDoe</a><br /> <a href="#">Historical</a>
+			</div>
+			<div>
+				<button id="BtnLogout" onclick="funcLogOutUser()">Logout</button>
 			</div>
 		</div>
-		
+	
 		<div id="searchBan">
 			<table>
 				<tr>
 					<td><label for="fromCity">From</label></td>
-					<td>
-						<select name="fromCity" id="fromCity">
-							<option value="Barcelone">Barcelone</option>
+					<td><select name="fromCity" id="fromCity">
+							<option value="Rio de Janeiro">Rio de Janeiro</option>
 							<option value="Lyon">Lyon</option>
 							<option value="NewYork">New York</option>
 							<option value="Tokyo">Tokyo</option>
-						</select> 
-					</td>
-					<td>Departing</td>
-					<td><input type="text" id="fli_departure" /></td>
-					<td rowspan="2">
-						<button>GO!</button>
-					</td>
-				</tr>
-				<tr>
+							<option value="Sydney">Sydney</option>
+					</select></td>
 					<td><label for="toCity">To</label></td>
 					<td>
 						<select name="toCity" id="toCity">
-							<option value="Barcelone">Barcelone</option>
+							<option value="Rio de Janeiro">Rio de Janeiro</option>
 							<option value="Lyon">Lyon</option>
 							<option value="NewYork">New York</option>
 							<option value="Tokyo">Tokyo</option>
-						</select> 
+							<option value="Sydney">Sydney</option>
+						</select>
 					</td>
-					<td></td>
-					<td></td>
+					<td rowspan="2">
+						<button onclick="funcGetFlights()">GO!</button>
+					</td>
+				</tr>
+				<tr>
+					<td>Departing</td>
+					<td><input type="text" id="fli_departure"/></td>
+					<td><label for="DepartureHour">Hour</label></td>
+					<td>
+						<select name="DepartureHour" id="DepartureHour">
+							<option value="0000">00:00</option>
+							<option value="0030">00:30</option>
+							<option value="0100">01:00</option>
+							<option value="0130">01:30</option>
+							<option value="0200">02:00</option>
+							<option value="0230">02:30</option>
+							<option value="0300">03:00</option>
+							<option value="0330">03:30</option>
+							<option value="0400">04:00</option>
+							<option value="0430">04:30</option>
+							<option value="0500">05:00</option>
+							<option value="0530">05:30</option>
+							<option value="0600">06:00</option>
+							<option value="0630">06:30</option>
+							<option value="0700">07:00</option>
+							<option value="0730">07:30</option>
+							<option value="0800">08:00</option>
+							<option value="0830">08:30</option>
+							<option value="0900">09:00</option>
+							<option value="0930">09:30</option>
+							<option value="1000">10:00</option>
+							<option value="1030">10:30</option>
+							<option value="1100">11:00</option>
+							<option value="1130">11:30</option>
+							<option value="1200">12:00</option>
+							<option value="1230">12:30</option>
+							<option value="1300">13:00</option>
+							<option value="1330">13:30</option>
+							<option value="1400">14:00</option>
+							<option value="1430">14:30</option>
+							<option value="1500">15:00</option>
+							<option value="1530">15:30</option>
+							<option value="1600">16:00</option>
+							<option value="1630">16:30</option>
+							<option value="1700">17:00</option>
+							<option value="1730">17:30</option>
+							<option value="1800">18:00</option>
+							<option value="1830">18:30</option>
+							<option value="1900">19:00</option>
+							<option value="1930">19:30</option>
+							<option value="2000">20:00</option>
+							<option value="2030">20:30</option>
+							<option value="2100">21:00</option>
+							<option value="2130">21:30</option>
+							<option value="2200">22:00</option>
+							<option value="2230">22:30</option>
+							<option value="2300">23:00</option>
+							<option value="2330">23:30</option>
+						</select>
+					</td>
 					<td></td>
 				</tr>
 			</table>
 		</div>
-		
-		<div id="resultTab">
-			<table>
-				<thead>
-					<tr>
-						<th>From</th>
-						<th>To</th>
-						<th>Date</th>
-						<th>Departure Time</th>
-						<th>Arrival Time</th>
-						<th>Time</th>
-						<th>Seats</th>
-						<th>Price</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>Lyon</td>
-						<td>Tokyo</td>
-						<td>12/12/12</td>
-						<td>08:00</td>
-						<td>18:00</td>
-						<td>10h</td>
-						<td>152</td>
-						<td>800</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
+	
+		<div id="resultTab"></div>
 	</body>
 </html>

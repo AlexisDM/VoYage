@@ -24,7 +24,7 @@ function funcSendInfo() {
 	  			window.location.href = 'login.html';
 	  	});
 	} else {
-		alert("Mots de passe diffÃ©rents");
+		alert("Mots de passe différents");
 	}
 }
 
@@ -36,9 +36,9 @@ function funcLog() {
 			password: $("#usr_password").val()
 		},
 		function(data,status){
-			if(data == "Failed") {
+			if(data == "failed") {
 				$('#lblErrorPassword').text("Bad connection parameters. Please try again");
-			} else if(data == "FirstConn") {
+			} else if(data == "firstConn") {
 				window.location.href = 'changepassword.html'
 			} else {
 				var tab = new Array();
@@ -66,7 +66,47 @@ function funcChangePass() {
 	}
 }
 
+function funcInitializeHeader() {
+	$.post("flight",
+			{
+				cmd:"PostHeaderInfo"
+			},
+			function(data,status){
+				if(data != null) {
+					var tab = data.split(";");
+					
+					//Nombre d'utilisateurs connectés
+					if(tab[1] == 1) {
+						$("#numUserConnected").text("You are the only user connected");
+					} else {
+						$("#numUserConnected").text(tab[1]+" users connected");
+					}
+					
+					//login pour le lien vers la page profil
+					$("#linkToProfile").text(tab[0]);
+				} else {
+					alert("Une erreur est survenue pendant le chargement de la page. Merci de recharger la page.");
+				}
+			});
+}
+
+function funcLogOutUser() {
+	alert("Coucou");
+	$.post("login",
+			{
+				cmd:"PostLogOutUser"
+			},
+			function(data,status){
+				if(data == "success") {
+					alert("Vous avez été déconnecté.")
+				} else {
+					alert("Erreur lors de la déconnexion.");
+				}
+			});
+}
+
 function funcGetFlights() {
+	alert("coucou");
 	/*$.post("Flight",
 			{
 				cmd:"LoadUsers"
