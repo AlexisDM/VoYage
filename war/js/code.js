@@ -239,7 +239,7 @@ function funcDeleteUser(param) {
 			if(data == "Failed") {
 				alert("Error deleting user")
 			} else {
-				alert("User updated successfully")
+				alert("User deleted successfully")
 				window.location.href = 'manageusers.html?login='.concat(data.login).concat("&nom=").concat(data.nom).concat("&prenom=").concat(data.prenom).concat("&lastConnexionDate=").concat(data.lastConnexionDate).concat("&lastConnexionTime=").concat(data.lastConnexionTime);
 			}
 		});  
@@ -327,9 +327,9 @@ function funcLoadFlights() {
 				  
 				  cell1.innerHTML = data[x].from;
 				  cell2.innerHTML = data[x].to;
-				  cell3.innerHTML = data[x].dateDeparture;
-				  cell4.innerHTML = data[x].dateArrival;
-				  cell5.innerHTML = data[x].hours;
+				  cell3.innerHTML = data[x].departure;
+				  cell4.innerHTML = data[x].arrival;
+				  cell5.innerHTML = data[x].time;
 				  cell6.innerHTML = data[x].seats;
 				  cell7.innerHTML = data[x].price;
 				  cell8.innerHTML = "<button id=\"btnEdit\" onclick=\"funcEditFlight('".concat(data[x].id).concat("');\">Edit</button>").concat("<button id=\"btnDelete\" onclick=\"funcDeleteFlight('").concat(data[x].id).concat("');\">Delete</button>");
@@ -359,6 +359,82 @@ function funcLoadFlights() {
 		});  
 }
 
+function funcUpdateFlight() {
+	$.post("ManageFlights",
+		{
+			cmd:"UpdateFlight",
+			id:$("#flight_id").text(),
+			from:$("#flight_from").val(),
+  		    to: $("#flight_to").val(),
+  		    departure: $("#flight_departure").val(),
+  			arrival: $("#flight_arrival").val(),
+  		    price: $("#flight_price").val(),
+  		    seats: $("#flight_seats").val()
+		},
+		function(data,status){
+			if(data == "Failed") {
+				alert("Error updating flight")
+			} else {
+				alert("Flight updated successfully")
+				window.location.href = 'manageflights.html?login='.concat(data.login).concat("&nom=").concat(data.nom).concat("&prenom=").concat(data.prenom).concat("&lastConnexionDate=").concat(data.lastConnexionDate).concat("&lastConnexionTime=").concat(data.lastConnexionTime);
+			}
+		});  
+}
+
+function funcEditFlight(param) {
+	$.post("ManageFlights",
+		{
+			cmd:"EditFlight",
+			id:param
+		},
+		function(data,status){
+			if(data == "Failed") {
+				alert("Error accessing other page")
+			} else {
+				window.location.href = 'editflight.html?departure='.concat(data.departure).concat("&arrival=").concat(data.arrival).concat("&from=").concat(data.from).concat("&to=").concat(data.to).concat("&seats=").concat(data.seats).concat("&price=").concat(data.price).concat("&id=").concat(data.id);
+			}
+		});  
+}
+
+
+function funcDeleteFlight(param) {
+	$.post("ManageFlights",
+		{
+			cmd:"DeleteFlight",
+			id:param
+		},
+		function(data,status){
+			if(data == "Failed") {
+				alert("Error deleting flight")
+			} else {
+				alert("Flight deleted successfully")
+				window.location.href = 'manageflights.html?login='.concat(data.login).concat("&nom=").concat(data.nom).concat("&prenom=").concat(data.prenom).concat("&lastConnexionDate=").concat(data.lastConnexionDate).concat("&lastConnexionTime=").concat(data.lastConnexionTime);
+			}
+		});  
+}
+
+function funcCreateFlight() {
+	$.post("ManageFlights",
+		{
+			cmd:"CreateFlight",
+			from:$("#flight_from").val(),
+  		    to: $("#flight_to").val(),
+  		    departure: $("#flight_departure").val(),
+  			arrival: $("#flight_arrival").val(),
+  		    price: $("#flight_price").val(),
+  		    seats: $("#flight_seats").val()
+		},
+		function(data,status){
+			if(data == "Failed") {
+				alert("Error creating flight")
+			} else {
+				alert("Flight created successfully")
+				window.location.href = 'manageflights.html?login='.concat(data.login).concat("&nom=").concat(data.nom).concat("&prenom=").concat(data.prenom).concat("&lastConnexionDate=").concat(data.lastConnexionDate).concat("&lastConnexionTime=").concat(data.lastConnexionTime);
+			}
+		});  
+	
+
+}
 
 
 function getURLParameter(name) {
@@ -399,14 +475,12 @@ function funcUserLoad() {
 }
 
 function funcFlightLoad() {
-	$("#usr_login").text(getURLParameter("login"));
-	$("#usr_prenom").val(getURLParameter("prenom"));
-	$("#usr_nom").val(getURLParameter("nom"));
-	$("#usr_age").val(getURLParameter("age"));
-	$("#usr_email").val(getURLParameter("email"));
-	$("#usr_creation").text(getURLParameter("creationAccount"));
-	$("#usr_lastConnexionDate").text(getURLParameter("lastConnexionDate"));
-	$("#usr_lastConnexionTime").text(getURLParameter("lastConnexionTime"));
-	$("#usr_id").text(getURLParameter("id"));
+	$("#flight_from").val(getURLParameter("from"));
+	$("#flight_to").val(getURLParameter("to"));
+	$("#flight_departure").val(getURLParameter("departure"));
+	$("#flight_arrival").val(getURLParameter("arrival"));
+	$("#flight_price").val(getURLParameter("price"));
+	$("#flight_seats").val(getURLParameter("seats"));
+	$("#flight_id").text(getURLParameter("id"));
 	
 }

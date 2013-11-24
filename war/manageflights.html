@@ -24,8 +24,38 @@
 	  		<button id="btnDisconnect" onclick="funcDisconnect();">Log Out</button>
 		</div>
 		<hr/>
+		<div id = "add_flight">
+		<br/>
+			<fieldset>
+			<legend>Add a flight</legend>
+			<table>
+				<tr>
+					<td>From :</td>
+					<td><input type="text" id="flight_from" /></td>
+					<td>Departure :</td>
+					<td><input type="text" id="flight_departure" /></td>
+					<td>Price :</td>
+					<td><input type="text" id="flight_price" /></td>
+				</tr>
+				<tr>
+					<td>To :</td>
+					<td><input type="text" id="flight_to" /></td>
+					<td>Arrival :</td>
+					<td><input type="text" id="flight_arrival" /></td>
+					<td>Seats :</td>
+					<td><input type="text" id="flight_seats" /></td>
+				</tr>
+				<tr style='height: 30px;'></tr>
+				<tr>
+					<td colspan="6">
+						<button id="btnCreateFlight" onclick="funcCreateFlight();">Create</button>
+					</td>
+				</tr>
+			</table>
+		</fieldset>
+		</div>
+		<hr/>
 		<div id="flights">
-			<button id="btnAddFlight" onclick="funcAddflight();">Add a flight</button>
 			<br/><br/>
 			<table id="myFlights" border="1">
 				

@@ -56,11 +56,11 @@ public class ManageFlightsServlet extends HttpServlet {
 						oneflight.put("id", KeyFactory.keyToString(f.getId()));
 						oneflight.put("from", f.getFrom());
 						oneflight.put("to", f.getTo());
-						oneflight.put("dateDeparture", f.getDeparture().toString());
-						oneflight.put("dateArrival", f.getArrival().toString());
+						oneflight.put("departure", f.getDeparture().toString());
+						oneflight.put("arrival", f.getArrival().toString());
 						oneflight.put("seats", String.valueOf(f.getSeats()));
 						oneflight.put("price", String.valueOf(f.getPrice()));
-						oneflight.put("hours",String.valueOf(f.getHours()));
+						oneflight.put("time",String.valueOf(f.getHours()));
 						flights.add(oneflight);
 					}
 					
@@ -76,36 +76,31 @@ public class ManageFlightsServlet extends HttpServlet {
 				}
 			}
 
-			/*if ("EditUser".equals(cmd)) {
+			if ("EditFlight".equals(cmd)) {
 
 				String id = req.getParameter("id");
 
 				boolean isOk = false;
 
-				Map<String, String> oneuser = new HashMap<String, String>();
+				Map<String, String> oneflight = new HashMap<String, String>();
 
 				if (id != null) {
-					User user = null;
+					Flight f = null;
 					try {
-						user = UserDao.loadSpecificUser(KeyFactory.stringToKey(id));
+						f = FlightDao.loadSpecificFlight(KeyFactory.stringToKey(id));
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					finally{
-						oneuser.put("id", id);
-						oneuser.put("login", user.getLogin());
-						oneuser.put("prenom", user.getPrenom());
-						oneuser.put("nom", user.getNom());
-						oneuser.put("age", String.valueOf(user.getAge()));
-						oneuser.put("email", user.getEmail());
-						oneuser.put("creationAccount",
-								user.getCreationAccount().toString());
-						oneuser.put("lastConnexionDate",
-								user.getLastConnectionDate().toString());
-						DecimalFormat df = new DecimalFormat("#");
-						oneuser.put("lastConnexionTime",
-								(df.format(user.getLastConnectionTime())));
+						oneflight.put("id", id);
+						oneflight.put("from", f.getFrom());
+						oneflight.put("to", f.getTo());
+						oneflight.put("departure", f.getDeparture().toString());
+						oneflight.put("arrival", f.getArrival().toString());
+						oneflight.put("seats", String.valueOf(f.getSeats()));
+						oneflight.put("price", String.valueOf(f.getPrice()));
+						oneflight.put("time",String.valueOf(f.getHours()));
 						isOk = true;
 						
 					}
@@ -115,27 +110,26 @@ public class ManageFlightsServlet extends HttpServlet {
 
 				PrintWriter out = resp.getWriter();
 				if (isOk) {
-					out.write(new Gson().toJson(oneuser));
+					out.write(new Gson().toJson(oneflight));
 				} else {
 					out.write("Failed");
 				}
 
 			}
 
-			if ("UpdateUser".equals(cmd)) {
+			if ("UpdateFlight".equals(cmd)) {
 				String id = req.getParameter("id");
 				boolean isOk = false;
-
-				KeyFactory.stringToKey(id);
 				
-				User user = new User(KeyFactory.stringToKey(id), req.getParameter("email"), new String(""), 
-						req.getParameter("password"), req.getParameter("prenom"), 
-						req.getParameter("nom"), new String(""), Integer.parseInt(req.getParameter("age")), 
-						new Date(), new Date(), 0);
+				int time = (int) (FlightDao.stringToDate(req.getParameter("arrival")).getTime()-FlightDao.stringToDate(req.getParameter("departure")).getTime())/3600000;
 
+				Flight flight = new Flight(KeyFactory.stringToKey(id), req.getParameter("from"), req.getParameter("to"), 
+						Integer.parseInt(req.getParameter("price")), Integer.parseInt(req.getParameter("seats")), 
+						FlightDao.stringToDate(req.getParameter("arrival")), FlightDao.stringToDate(req.getParameter("departure")), 
+						time);
 				try
 				{
-					UserDao.UpdateUser(user);
+					FlightDao.UpdateFlight(flight);
 				}
 				catch (Exception e)
 				{
@@ -166,28 +160,17 @@ public class ManageFlightsServlet extends HttpServlet {
 
 			}
 			
-			if ("DeleteUser".equals(cmd)) {
+			if ("DeleteFlight".equals(cmd)) {
 				String id = req.getParameter("id");
 				boolean isOk = false;
 
-				KeyFactory.stringToKey(id);
+				Flight flight = new Flight(KeyFactory.stringToKey(id), new String(""), new String(""), 0, 0, new Date(), new Date(), 0);
 				
-				User user = new User(KeyFactory.stringToKey(id), new String(""), new String(""), 
-						new String(""), new String(""), 
-						new String(""), new String(""), 0, 
-						new Date(), new Date(), 0);
-
-				try
-				{
-					UserDao.DeleteUser(user);
-				}
-				catch (Exception e)
-				{
-				}
-				finally
-				{
+				
+					FlightDao.DeleteFlight(flight);
+				
 					isOk = true;
-				}
+				
 				
 					Map<String, String> oneuser = new HashMap<String, String>();
 					
@@ -208,25 +191,25 @@ public class ManageFlightsServlet extends HttpServlet {
 
 			}
 			
-			if ("CreateUser".equals(cmd)) {
+			if ("CreateFlight".equals(cmd)) {
 			
-				String nom = req.getParameter("nom");
-				String prenom = req.getParameter("prenom");
-				String age = req.getParameter("age");
-				String email = req.getParameter("email");
-				String login = req.getParameter("login");
-				String password = req.getParameter("password");
-				String admin = req.getParameter("admin");
-				Date dateCreaAccount = new Date();
+				String from = req.getParameter("from");
+				String to = req.getParameter("to");
+				String departure = req.getParameter("departure");
+				String arrival = req.getParameter("arrival");
+				String price = req.getParameter("price");
+				String seats = req.getParameter("seats");
 				
 				boolean isOk = false;
 				
-				if (nom != null && prenom != null && password != null && email != null && login != null) {
+				if (from != null && to != null && departure != null && arrival != null && price != null && seats != null) {
+					
+					int time = (int) (FlightDao.stringToDate(arrival).getTime()-FlightDao.stringToDate(departure).getTime())/3600000;
 					
 					try {
 						
-						User userToAdd = new User(email, login, password, prenom, nom, admin, Integer.parseInt(age), dateCreaAccount, dateCreaAccount, -1);
-						UserDao.addUser(userToAdd);
+						Flight flightToAdd = new Flight(from, to, Integer.parseInt(price), Integer.parseInt(seats), FlightDao.stringToDate(arrival), FlightDao.stringToDate(departure), time);
+						FlightDao.addFlight(flightToAdd);
 					}
 					catch(Exception e){
 						
@@ -252,7 +235,7 @@ public class ManageFlightsServlet extends HttpServlet {
 					out.write("Failed");
 				}	
 				
-			}*/
+			}
 		}
 	}
 }

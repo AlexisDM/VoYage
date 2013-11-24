@@ -223,7 +223,7 @@ public class UserDao {
 		double out = 0;
 		
 		out = Double.parseDouble(origine);
-		out = out/6000;
+		out = out/3600000;
 		out = Math.round( out * 100.0 ) / 100.0;
 		
 		return out;

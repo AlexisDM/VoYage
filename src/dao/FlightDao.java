@@ -21,109 +21,40 @@ import model.Flight;
 import model.User;
 
 public class FlightDao {
-	public static void addUser(Flight flight) {
+	public static void addFlight(Flight flight) {
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		
 		Entity entityFlight = new Entity("flight");
 		
-		entityFlight.setProperty("dateDeparture", flight.getDeparture());
-		entityFlight.setProperty("dateArrival", flight.getArrival());
+		entityFlight.setProperty("departure", flight.getDeparture());
+		entityFlight.setProperty("arrival", flight.getArrival());
 		entityFlight.setProperty("from", flight.getFrom());
 		entityFlight.setProperty("to", flight.getTo());
 		entityFlight.setProperty("price", flight.getPrice());
-		entityFlight.setProperty("seat", flight.getSeats());
-		entityFlight.setProperty("hours", flight.getHours());
+		entityFlight.setProperty("seats", flight.getSeats());
+		entityFlight.setProperty("time", flight.getHours());
 		
 		datastore.put(entityFlight);
 	}
 	
-	/*@SuppressWarnings("deprecation")
-	public static User loginUser(String reqLogin, String reqPassword, String reqAdmin) {
-		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-		
-		Query q = new Query("user");
-		q.addFilter("login", Query.FilterOperator.EQUAL, reqLogin);
-		q.addFilter("password", Query.FilterOperator.EQUAL, reqPassword);
-		if (reqAdmin.equals("Y"))
-		{
-			q.addFilter("admin", Query.FilterOperator.EQUAL, reqAdmin);	
-		}
-		
-		PreparedQuery pq = datastore.prepare(q);
-		
-		User myuser = null;
-
-		for(Entity result : pq.asIterable ()) {
-			
-			myuser = new User(result.getKey(), result.getProperty("email").toString(), 
-					result.getProperty("login").toString(), result.getProperty("password").toString(), 
-					result.getProperty("prenom").toString(), result.getProperty("nom").toString(), 
-					result.getProperty("admin").toString(), Integer.parseInt(result.getProperty("age").toString()), 
-					stringToDate(result.getProperty("creationAccount").toString()), stringToDate(result.getProperty("lastConnexionDate").toString()), 
-					stringToDouble(result.getProperty("lastConnexionTime").toString()));
-		}
-
-		if (myuser.getId() != null ) {
-			Entity user = null;
-			try {
-				user = datastore.get(myuser.getId());
-			} catch (EntityNotFoundException e) {
-				e.printStackTrace();
-			}
-			user.setProperty("lastConnexionDate", new Date());
-			user.setProperty("lastConnexionTime", "0");
-			datastore.put(user);
-		}
-		
-		return myuser;
-	}
 	
-	public static void logoutUser(User myUser)
+	public static Flight loadSpecificFlight(Key id)
 	{
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		
-		SimpleDateFormat format=new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy",Locale.US);
-	    Date convertedDate;	
-		
-		if (myUser.getId() != null ) {
-			Entity user = null;
-			try {
-				user = datastore.get(myUser.getId());
-				
-				String lastConnexionDate = user.getProperty("lastConnexionDate").toString();
-				try {
-					convertedDate = format.parse(lastConnexionDate);
-					user.setProperty("lastConnexionTime", new Date().getTime() - convertedDate.getTime());
-					datastore.put(user);
-				} catch (ParseException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}			
-			} catch (EntityNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
-	
-	public static User loadSpecificUser(Key id)
-	{
-		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-		
-		Entity user = null;
+		Entity flight = null;
 		try {
-			user = datastore.get(id);
+			flight = datastore.get(id);
 		} catch (EntityNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		return new User(id, user.getProperty("email").toString(), user.getProperty("login").toString(), 
-				user.getProperty("password").toString(), user.getProperty("prenom").toString(), user.getProperty("nom").toString(), 
-				user.getProperty("admin").toString(), Integer.parseInt(user.getProperty("age").toString()), 
-				stringToDate(user.getProperty("creationAccount").toString()), stringToDate(user.getProperty("lastConnexionDate").toString()),
-				stringToDouble(user.getProperty("lastConnexionTime").toString()));
-	}*/
+		return new Flight(id, flight.getProperty("from").toString(), flight.getProperty("to").toString(), 
+				Integer.parseInt(flight.getProperty("price").toString()), Integer.parseInt(flight.getProperty("seats").toString()), 
+				stringToDate(flight.getProperty("arrival").toString()), stringToDate(flight.getProperty("departure").toString()), 
+				Integer.parseInt(flight.getProperty("time").toString()));
+	}
 	
 	public static List<Flight> loadFlights()
 	{
@@ -140,11 +71,9 @@ public class FlightDao {
 			Flight oneflight = new Flight(result.getKey(), result.getProperty("from").toString(), result.getProperty("to").toString(), 
 					Integer.parseInt(result.getProperty("price").toString()), Integer.parseInt(result.getProperty("seats").toString()), 
 					stringToDate(result.getProperty("arrival").toString()), stringToDate(result.getProperty("departure").toString()), 
-					Integer.parseInt(result.getProperty("hours").toString()));
+					Integer.parseInt(result.getProperty("time").toString()));
 			
 			flights.add(oneflight);
-			
-			System.out.println(oneflight);
 			
 			}
 		
@@ -152,13 +81,13 @@ public class FlightDao {
 	
 	}
 	
-/*	public static void UpdateUser(User user)
+	public static void UpdateFlight(Flight flight)
 	{
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		
-		Entity newuser = null;
+		Entity newflight = null;
 		try {
-			newuser = datastore.get(user.getId());
+			newflight = datastore.get(flight.getId());
 
 		} catch (EntityNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -166,39 +95,44 @@ public class FlightDao {
 		}
 		finally
 		{
-			if (!user.getNom().equals("")) {
-				newuser.setProperty("nom", user.getNom());
-			}
-
-			if (!user.getPrenom().equals("")) {
-				newuser.setProperty("prenom", user.getPrenom());
+			if (!flight.getDeparture().equals("")) {
+				newflight.setProperty("departure", flight.getDeparture());
 			}
 			
-			newuser.setProperty("age", String.valueOf(user.getAge()));
-			
-			if (!user.getEmail().equals("")) {
-				newuser.setProperty("email",user.getEmail());
+			if (!flight.getArrival().equals("")) {
+				newflight.setProperty("arrival", flight.getArrival());
 			}
 			
-			if (!user.getPassword().equals("")) {
-				newuser.setProperty("password",user.getPassword());
+			if (!flight.getFrom().equals("")) {
+				newflight.setProperty("from", flight.getFrom());
 			}
-			datastore.put(newuser);
+			
+			if (!flight.getTo().equals("")) {
+				newflight.setProperty("to", flight.getTo());
+			}
+			
+			newflight.setProperty("price", flight.getPrice());
+			
+			newflight.setProperty("seats", flight.getSeats());
+			
+			newflight.setProperty("time", flight.getHours());
+			
+			datastore.put(newflight);
 		}
 		
 		
 	}
 	
-	public static void DeleteUser(User user)
+	public static void DeleteFlight(Flight flight)
 	{
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		
-		datastore.delete(user.getId());
+		datastore.delete(flight.getId());
 
 		
-	}*/
+	}
 	
-	private static Date stringToDate(String origine)
+	public static Date stringToDate(String origine)
 	{
 		Date out = null;
 		
@@ -214,12 +148,12 @@ public class FlightDao {
 		return out;
 	}
 	
-	private static double stringToDouble(String origine)
+	public static double stringToDouble(String origine)
 	{
 		double out = 0;
 		
 		out = Double.parseDouble(origine);
-		out = out/6000;
+		out = out/3600000;
 		out = Math.round( out * 100.0 ) / 100.0;
 		
 		return out;
