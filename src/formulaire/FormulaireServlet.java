@@ -53,7 +53,7 @@ public class FormulaireServlet extends HttpServlet {
 					//Enregistrement de l'utilisateur dans le DataStore
 					//DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 					
-					User userToAdd = new User(email, login, pass, prenom, prenom, "Y", Integer.parseInt(age), dateCreaAccount, dateCreaAccount, -1);
+					User userToAdd = new User(email, login, pass, prenom, nom, "N", Integer.parseInt(age), dateCreaAccount, dateCreaAccount, -1);
 					UserDao.addUser(userToAdd);
 					
 					/*

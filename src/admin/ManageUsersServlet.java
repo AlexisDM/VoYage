@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.servlet.http.*;
 
 import model.User;
@@ -33,8 +34,6 @@ public class ManageUsersServlet extends HttpServlet {
 		String cmd = req.getParameter("cmd");
 
 		resp.setContentType("application/json");
-
-		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
 		if (cmd != null) {
 			if ("LoadUsers".equals(cmd)) {
@@ -90,43 +89,34 @@ public class ManageUsersServlet extends HttpServlet {
 
 				boolean isOk = false;
 
-				Key userid = KeyFactory.stringToKey(id);
-
 				Map<String, String> oneuser = new HashMap<String, String>();
 
 				if (id != null) {
-					Entity user = null;
+					User user = null;
 					try {
-						user = datastore.get(userid);
-					} catch (EntityNotFoundException e) {
+						user = UserDao.loadSpecificUser(KeyFactory.stringToKey(id));
+					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					finally{
+						oneuser.put("id", id);
+						oneuser.put("login", user.getLogin());
+						oneuser.put("prenom", user.getPrenom());
+						oneuser.put("nom", user.getNom());
+						oneuser.put("age", String.valueOf(user.getAge()));
+						oneuser.put("email", user.getEmail());
+						oneuser.put("creationAccount",
+								user.getCreationAccount().toString());
+						oneuser.put("lastConnexionDate",
+								user.getLastConnectionDate().toString());
+						DecimalFormat df = new DecimalFormat("#");
+						oneuser.put("lastConnexionTime",
+								(df.format(user.getLastConnectionTime())));
+						isOk = true;
+						
+					}
 
-					String lastConnexionTime = "";
-					double lastConnexionTimedb = 0;
-
-					oneuser.put("id", id);
-					oneuser.put("login", user.getProperty("login").toString());
-					oneuser.put("prenom", user.getProperty("prenom").toString());
-					oneuser.put("nom", user.getProperty("nom").toString());
-					oneuser.put("age", user.getProperty("age").toString());
-					oneuser.put("email", user.getProperty("email").toString());
-					oneuser.put("creationAccount",
-							user.getProperty("creationAccount").toString());
-					oneuser.put("lastConnexionDate",
-							user.getProperty("lastConnexionDate").toString());
-					lastConnexionTime = user.getProperty("lastConnexionTime")
-							.toString();
-					lastConnexionTimedb = Double.parseDouble(lastConnexionTime);
-					lastConnexionTimedb = lastConnexionTimedb / 6000;
-					lastConnexionTimedb = Math
-							.round(lastConnexionTimedb * 100.0) / 100.0;
-					DecimalFormat df = new DecimalFormat("#");
-					oneuser.put("lastConnexionTime",
-							(df.format(lastConnexionTimedb)));
-
-					isOk = true;
 
 				}
 
@@ -221,10 +211,54 @@ public class ManageUsersServlet extends HttpServlet {
 						out.write(new Gson().toJson(oneuser));
 					} else {
 						out.write("Failed");
-					}
+					}		
 
+			}
+			
+			if ("CreateUser".equals(cmd)) {
+			
+				String nom = req.getParameter("nom");
+				String prenom = req.getParameter("prenom");
+				String age = req.getParameter("age");
+				String email = req.getParameter("email");
+				String login = req.getParameter("login");
+				String password = req.getParameter("password");
+				String admin = req.getParameter("admin");
+				Date dateCreaAccount = new Date();
 				
-
+				boolean isOk = false;
+				
+				if (nom != null && prenom != null && password != null && email != null && login != null) {
+					
+					try {
+						
+						User userToAdd = new User(email, login, password, prenom, nom, admin, Integer.parseInt(age), dateCreaAccount, dateCreaAccount, -1);
+						UserDao.addUser(userToAdd);
+					}
+					catch(Exception e){
+						
+					}
+					finally{
+						isOk = true;
+					}
+				}
+				
+				Map<String, String> oneuser = new HashMap<String, String>();
+				
+				HttpSession session = req.getSession();
+				oneuser.put("login", session.getAttribute("login").toString());
+				oneuser.put("nom", session.getAttribute("nom").toString());
+				oneuser.put("prenom", session.getAttribute("prenom").toString());
+				oneuser.put("lastConnexionDate", session.getAttribute("lastConnexionDate").toString());
+				oneuser.put("lastConnexionTime", session.getAttribute("lastConnexionTime").toString());
+				
+				PrintWriter out = resp.getWriter();
+				if (isOk) {
+					out.write(new Gson().toJson(oneuser));
+				} else {
+					out.write("Failed");
+				}	
+				
 			}
 		}
 	}

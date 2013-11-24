@@ -1,15 +1,19 @@
 package dao;
 
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 
@@ -103,6 +107,25 @@ public class UserDao {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public static User loadSpecificUser(Key id)
+	{
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		
+		Entity user = null;
+		try {
+			user = datastore.get(id);
+		} catch (EntityNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return new User(id, user.getProperty("email").toString(), user.getProperty("login").toString(), 
+				user.getProperty("password").toString(), user.getProperty("prenom").toString(), user.getProperty("nom").toString(), 
+				user.getProperty("admin").toString(), Integer.parseInt(user.getProperty("age").toString()), 
+				stringToDate(user.getProperty("creationAccount").toString()), stringToDate(user.getProperty("lastConnexionDate").toString()),
+				stringToDouble(user.getProperty("lastConnexionTime").toString()));
 	}
 	
 	public static List<User> loadUsers()

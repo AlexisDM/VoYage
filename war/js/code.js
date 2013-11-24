@@ -192,6 +192,71 @@ function funcLoadUsers() {
 		});  
 }
 
+function funcLoadFlights() {
+	$.post("ManageFlights",
+		{
+			cmd:"LoadFlights"
+		},
+		function(data,status){
+			if(data == "Failed") {
+				alert("Error loading flight list")
+			} else {
+				
+				var table=document.getElementById("myFlights");
+
+				
+				
+				for (x in data)
+				  {
+				  var row=table.insertRow(x);
+				  
+				  var cell1=row.insertCell(0);
+				  var cell2=row.insertCell(1);
+				  var cell3=row.insertCell(2);
+				  var cell4=row.insertCell(3);
+				  var cell5=row.insertCell(4);
+				  var cell6=row.insertCell(5);
+				  var cell7=row.insertCell(6);
+				  var cell8=row.insertCell(7);
+				  var cell9=row.insertCell(8);
+				  
+				  cell1.innerHTML = data[x].login;
+				  cell2.innerHTML = data[x].nom;
+				  cell3.innerHTML = data[x].prenom;
+				  cell4.innerHTML = data[x].age;
+				  cell5.innerHTML = data[x].email;
+				  cell6.innerHTML = data[x].creationAccount;
+				  cell7.innerHTML = data[x].lastConnexionDate;
+				  cell8.innerHTML = data[x].lastConnexionTime;
+				  cell9.innerHTML = "<button id=\"btnEdit\" onclick=\"funcEditFlight('".concat(data[x].id).concat("');\">Edit</button>").concat("<button id=\"btnDelete\" onclick=\"funcDeleteFlight('").concat(data[x].id).concat("');\">Delete</button>");
+				  }
+				
+				 var row=table.insertRow(0);
+				 var cell1=row.insertCell(0);
+				 var cell2=row.insertCell(1);
+				 var cell3=row.insertCell(2);
+				 var cell4=row.insertCell(3);
+				 var cell5=row.insertCell(4);
+				 var cell6=row.insertCell(5);
+				 var cell7=row.insertCell(6);
+				 var cell8=row.insertCell(7);
+				 var cell9=row.insertCell(8);
+				  
+				 cell1.innerHTML = "<b>Login</b>";
+				 cell2.innerHTML = "<b>Last Name</b>";
+				 cell3.innerHTML = "<b>First Name</b>";
+				 cell4.innerHTML = "<b>Age</b>";
+				 cell5.innerHTML = "<b>E-mail</b>";
+				 cell6.innerHTML = "<b>Creation Date</b>";
+				 cell7.innerHTML = "<b>Last Connexion Date</b>";
+				 cell8.innerHTML = "<b>Last Connexion Time</b>";
+				 cell9.innerHTML = "<b>Action</b>";
+
+
+			}
+		});  
+}
+
 
 function funcUpdateUser() {
 	$.post("ManageUsers",
@@ -208,6 +273,7 @@ function funcUpdateUser() {
 			if(data == "Failed") {
 				alert("Error updating user")
 			} else {
+				alert("User updated successfully")
 				window.location.href = 'manageusers.html?login='.concat(data.login).concat("&nom=").concat(data.nom).concat("&prenom=").concat(data.prenom).concat("&lastConnexionDate=").concat(data.lastConnexionDate).concat("&lastConnexionTime=").concat(data.lastConnexionTime);
 			}
 		});  
@@ -236,11 +302,49 @@ function funcDeleteUser(param) {
 		},
 		function(data,status){
 			if(data == "Failed") {
-				alert("Error accessing other page")
+				alert("Error deleting user")
 			} else {
+				alert("User updated successfully")
 				window.location.href = 'manageusers.html?login='.concat(data.login).concat("&nom=").concat(data.nom).concat("&prenom=").concat(data.prenom).concat("&lastConnexionDate=").concat(data.lastConnexionDate).concat("&lastConnexionTime=").concat(data.lastConnexionTime);
 			}
 		});  
+}
+
+
+function funcAdduser(param) {
+	window.location.href = 'adduser.html'
+}
+
+function funcCreateUser() {
+	
+	if($("#usr_admin").is(":checked")) {
+        var adminvalue = 'Y'
+    } else {
+        var adminvalue = 'N'
+    }
+
+	
+	$.post("ManageUsers",
+		{
+			cmd:"CreateUser",
+			nom:$("#usr_nom").val(),
+  		    prenom: $("#usr_prenom").val(),
+  		    age: $("#usr_age").val(),
+  		    login: $("#usr_login").val(),
+  			email: $("#usr_email").val(),
+  		    password: $("#usr_password").val(),
+  		    admin: adminvalue
+		},
+		function(data,status){
+			if(data == "Failed") {
+				alert("Error creating user")
+			} else {
+				alert("User created successfully")
+				window.location.href = 'manageusers.html?login='.concat(data.login).concat("&nom=").concat(data.nom).concat("&prenom=").concat(data.prenom).concat("&lastConnexionDate=").concat(data.lastConnexionDate).concat("&lastConnexionTime=").concat(data.lastConnexionTime);
+			}
+		});  
+	
+
 }
 
 function getURLParameter(name) {
@@ -268,6 +372,19 @@ function funcFillDataAdmin() {
 }
 
 function funcUserLoad() {
+	$("#usr_login").text(getURLParameter("login"));
+	$("#usr_prenom").val(getURLParameter("prenom"));
+	$("#usr_nom").val(getURLParameter("nom"));
+	$("#usr_age").val(getURLParameter("age"));
+	$("#usr_email").val(getURLParameter("email"));
+	$("#usr_creation").text(getURLParameter("creationAccount"));
+	$("#usr_lastConnexionDate").text(getURLParameter("lastConnexionDate"));
+	$("#usr_lastConnexionTime").text(getURLParameter("lastConnexionTime"));
+	$("#usr_id").text(getURLParameter("id"));
+	
+}
+
+function funcFlightLoad() {
 	$("#usr_login").text(getURLParameter("login"));
 	$("#usr_prenom").val(getURLParameter("prenom"));
 	$("#usr_nom").val(getURLParameter("nom"));
