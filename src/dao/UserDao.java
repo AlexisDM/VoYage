@@ -70,7 +70,6 @@ public class UserDao {
 			try {
 				user = datastore.get(myuser.getId());
 			} catch (EntityNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			user.setProperty("lastConnexionDate", new Date());
@@ -181,6 +180,7 @@ public class UserDao {
 			if (!user.getEmail().equals("")) {
 				newuser.setProperty("email",user.getEmail());
 			}
+			
 			if (!user.getPassword().equals("")) {
 				newuser.setProperty("password",user.getPassword());
 			}
@@ -214,8 +214,6 @@ public class UserDao {
 		
 		return out;
 	}
-	
-	
 	
 	private static double stringToDouble(String origine)
 	{

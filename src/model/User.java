@@ -38,7 +38,7 @@ public class User {
 	
 	public User(String email, String login, String password, String prenom,
 			String nom, String admin, int age, Date creationAccount, Date lastConnectionDate,
-			int lastConnectionTime) {
+			double lastConnectionTime) {
 		this.email = email;
 		this.login = login;
 		this.password = password;
