@@ -11,6 +11,6 @@ public class FlightServlet extends HttpServlet {
 	}
 	
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-
+		
 	}
 }

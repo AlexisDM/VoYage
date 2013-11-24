@@ -29,7 +29,7 @@ public class FormulaireServlet extends HttpServlet {
 		
 		if (cmd != null) {
 			if ("PostInfo".equals(cmd)) {
-				//Rï¿½cupï¿½ration des donnï¿½es saisies
+				//Récupération des données saisies
 				String nom = req.getParameter("nom");
 				String prenom = req.getParameter("prenom");
 				String age = req.getParameter("age");
@@ -37,7 +37,7 @@ public class FormulaireServlet extends HttpServlet {
 				String login = req.getParameter("login");
 				//String password = req.getParameter("password");
 				
-				//Gï¿½nï¿½ration du mot de passe
+				//Génération du mot de passe
 				String chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
 			    String pass = "";
 			    for(int x=0;x<8;x++)
@@ -51,25 +51,8 @@ public class FormulaireServlet extends HttpServlet {
 			    
 				if (nom != null && prenom != null && age != null && email != null && login != null) {
 					//Enregistrement de l'utilisateur dans le DataStore
-					//DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-					
-					User userToAdd = new User(email, login, pass, prenom, prenom, "Y", Integer.parseInt(age), dateCreaAccount, dateCreaAccount, -1);
+					User userToAdd = new User(email, login, pass, prenom, prenom, "N", Integer.parseInt(age), dateCreaAccount, dateCreaAccount, -1);
 					UserDao.addUser(userToAdd);
-					
-					/*
-					Entity user = new Entity("user");
-					user.setProperty("nom", nom);
-					user.setProperty("prenom", prenom);
-					user.setProperty("age", age);
-					user.setProperty("email", email);
-					user.setProperty("login", login);
-					user.setProperty("password", pass);
-					user.setProperty("creationAccount", dateCreaAccount);
-					user.setProperty("lastConnexionDate", dateCreaAccount);
-					user.setProperty("lastConnexionTime", "0");
-					user.setProperty("admin", "Y");
-					datastore.put(user);
-					*/
 					
 					//Envoie du mail
 					Properties props = new Properties();
@@ -79,7 +62,7 @@ public class FormulaireServlet extends HttpServlet {
 			        		+ "Votre compte a bien été créé.\n"
 			        		+ "Votre mot de passe est : "+pass+"\n"
 			        		+ "Vous pourrez le modifier lors de votre prochaine connexion.";
-
+			        
 			        try {
 			            Message msg = new MimeMessage(session);
 			            msg.setFrom(new InternetAddress("alexis.demarinis@gmail.com", "noReply@VoYage.fr Admin"));
