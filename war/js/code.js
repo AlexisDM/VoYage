@@ -192,71 +192,6 @@ function funcLoadUsers() {
 		});  
 }
 
-function funcLoadFlights() {
-	$.post("ManageFlights",
-		{
-			cmd:"LoadFlights"
-		},
-		function(data,status){
-			if(data == "Failed") {
-				alert("Error loading flight list")
-			} else {
-				
-				var table=document.getElementById("myFlights");
-
-				
-				
-				for (x in data)
-				  {
-				  var row=table.insertRow(x);
-				  
-				  var cell1=row.insertCell(0);
-				  var cell2=row.insertCell(1);
-				  var cell3=row.insertCell(2);
-				  var cell4=row.insertCell(3);
-				  var cell5=row.insertCell(4);
-				  var cell6=row.insertCell(5);
-				  var cell7=row.insertCell(6);
-				  var cell8=row.insertCell(7);
-				  var cell9=row.insertCell(8);
-				  
-				  cell1.innerHTML = data[x].login;
-				  cell2.innerHTML = data[x].nom;
-				  cell3.innerHTML = data[x].prenom;
-				  cell4.innerHTML = data[x].age;
-				  cell5.innerHTML = data[x].email;
-				  cell6.innerHTML = data[x].creationAccount;
-				  cell7.innerHTML = data[x].lastConnexionDate;
-				  cell8.innerHTML = data[x].lastConnexionTime;
-				  cell9.innerHTML = "<button id=\"btnEdit\" onclick=\"funcEditFlight('".concat(data[x].id).concat("');\">Edit</button>").concat("<button id=\"btnDelete\" onclick=\"funcDeleteFlight('").concat(data[x].id).concat("');\">Delete</button>");
-				  }
-				
-				 var row=table.insertRow(0);
-				 var cell1=row.insertCell(0);
-				 var cell2=row.insertCell(1);
-				 var cell3=row.insertCell(2);
-				 var cell4=row.insertCell(3);
-				 var cell5=row.insertCell(4);
-				 var cell6=row.insertCell(5);
-				 var cell7=row.insertCell(6);
-				 var cell8=row.insertCell(7);
-				 var cell9=row.insertCell(8);
-				  
-				 cell1.innerHTML = "<b>Login</b>";
-				 cell2.innerHTML = "<b>Last Name</b>";
-				 cell3.innerHTML = "<b>First Name</b>";
-				 cell4.innerHTML = "<b>Age</b>";
-				 cell5.innerHTML = "<b>E-mail</b>";
-				 cell6.innerHTML = "<b>Creation Date</b>";
-				 cell7.innerHTML = "<b>Last Connexion Date</b>";
-				 cell8.innerHTML = "<b>Last Connexion Time</b>";
-				 cell9.innerHTML = "<b>Action</b>";
-
-
-			}
-		});  
-}
-
 
 function funcUpdateUser() {
 	$.post("ManageUsers",
@@ -346,6 +281,74 @@ function funcCreateUser() {
 	
 
 }
+
+
+function funcLoadFlights() {
+	$.post("ManageFlights",
+		{
+			cmd:"LoadFlights"
+		},
+		function(data,status){
+			if(data == "Failed") {
+				alert("Error loading flight list")
+			} else {
+				
+				var table=document.getElementById("myFlights");
+
+				
+				
+				for (x in data)
+				  {
+				  var row=table.insertRow(x);
+				  
+				  var cell1=row.insertCell(0);
+				  var cell2=row.insertCell(1);
+				  var cell3=row.insertCell(2);
+				  var cell4=row.insertCell(3);
+				  var cell5=row.insertCell(4);
+				  var cell6=row.insertCell(5);
+				  var cell7=row.insertCell(6);
+				  var cell8=row.insertCell(7);
+				  var cell9=row.insertCell(8);
+				  
+				  cell1.innerHTML = data[x].login;
+				  cell2.innerHTML = data[x].nom;
+				  cell3.innerHTML = data[x].prenom;
+				  cell4.innerHTML = data[x].age;
+				  cell5.innerHTML = data[x].email;
+				  cell6.innerHTML = data[x].creationAccount;
+				  cell7.innerHTML = data[x].lastConnexionDate;
+				  cell8.innerHTML = data[x].lastConnexionTime;
+				  cell9.innerHTML = "<button id=\"btnEdit\" onclick=\"funcEditFlight('".concat(data[x].id).concat("');\">Edit</button>").concat("<button id=\"btnDelete\" onclick=\"funcDeleteFlight('").concat(data[x].id).concat("');\">Delete</button>");
+				  }
+				
+				 var row=table.insertRow(0);
+				 var cell1=row.insertCell(0);
+				 var cell2=row.insertCell(1);
+				 var cell3=row.insertCell(2);
+				 var cell4=row.insertCell(3);
+				 var cell5=row.insertCell(4);
+				 var cell6=row.insertCell(5);
+				 var cell7=row.insertCell(6);
+				 var cell8=row.insertCell(7);
+				 var cell9=row.insertCell(8);
+				  
+				 cell1.innerHTML = "<b>Login</b>";
+				 cell2.innerHTML = "<b>Last Name</b>";
+				 cell3.innerHTML = "<b>First Name</b>";
+				 cell4.innerHTML = "<b>Age</b>";
+				 cell5.innerHTML = "<b>E-mail</b>";
+				 cell6.innerHTML = "<b>Creation Date</b>";
+				 cell7.innerHTML = "<b>Last Connexion Date</b>";
+				 cell8.innerHTML = "<b>Last Connexion Time</b>";
+				 cell9.innerHTML = "<b>Action</b>";
+
+
+			}
+		});  
+}
+
+
 
 function getURLParameter(name) {
     return decodeURI(
