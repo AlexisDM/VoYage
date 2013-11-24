@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<title>VoYage</title>
+		
+		<script src="js/codiqa.ext.js"></script>
+		<script src="js/code.js"></script>
+		
+		<script src="https://d10ajoocuyu32n.cloudfront.net/jquery-1.9.1.min.js"></script>
+	</head>
+	
+	<body onload="funcFlightLoad()">
+		<h1>voYage</h1>
+		<h2>Edit Flights</h2>
+		<fieldset>
+			<legend>Information</legend>
+			<table>
+				<tr>
+					<td>From</td>
+					<td><input type="text" id="flight_from" /></td>
+				</tr>
+				<tr>
+					<td>To</td>
+					<td><input type="text" id="flight_to" /></td>
+				</tr>
+				<tr style='height: 30px;'></tr>
+				<tr>
+					<td>Departure</td>
+					<td><input type="text" id="flight_departure" /></td>
+				</tr>
+				<tr>
+					<td>Arrival</td>
+					<td><input type="text" id="flight_arrival" /></td>
+				</tr>
+				<tr style='height: 30px;'></tr>
+				<tr>
+					<td>Price</td>
+					<td><input type="text" id="flight_price" /></td>
+				</tr>
+				<tr>
+					<td>Seats</td>
+					<td><input type="text" id="flight_seats" /></td>
+				</tr>
+				<tr style='height: 30px;'></tr>
+				<tr>
+					<td colspan="2">
+						<button id="btnUpdateFlight" onclick="funcUpdateFlight();">Update</button><button id="btnCancel" onclick="history.go(-1);">Cancel</button>
+					</td>
+				</tr>
+			</table>
+			<input type="hidden" id="flight_id"/>
+		</fieldset>
+		<footer>
+			<br />
+			AleksTaune Inc (c)
+		</footer>
+	</body>
+</html>
