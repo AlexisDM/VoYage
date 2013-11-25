@@ -1,3 +1,5 @@
+userOk = false;
+
 function funcEmptyForm() {
 	$("#usr_nom").val("");
 	$("#usr_prenom").val("");
@@ -151,6 +153,9 @@ function funcDisconnect() {
 		});  
 }
 
+
+/******   GESTION DES USERS (ADMIN PART)      *******/
+
 function funcManageUsers() {
 	$.post("Admin",
 		{
@@ -234,24 +239,38 @@ function funcLoadUsers() {
 
 
 function funcUpdateUser() {
-	$.post("ManageUsers",
+	
+	checkUserForm("UpdateUser")
+	
+	if(userOk == true)
 		{
-			cmd:"UpdateUser",
-			id:$("#usr_id").text(),
-			nom:$("#usr_nom").val(),
-  		    prenom: $("#usr_prenom").val(),
-  		    age: $("#usr_age").val(),
-  			email: $("#usr_email").val(),
-  		    password: $("#usr_password").val()
-		},
-		function(data,status){
-			if(data == "Failed") {
-				alert("Error updating user")
-			} else {
-				alert("User updated successfully")
-				window.location.href = 'manageusers.html?login='.concat(data.login).concat("&nom=").concat(data.nom).concat("&prenom=").concat(data.prenom).concat("&lastConnexionDate=").concat(data.lastConnexionDate).concat("&lastConnexionTime=").concat(data.lastConnexionTime);
-			}
-		});  
+	
+			$.post("ManageUsers",
+				{
+					cmd:"UpdateUser",
+					id:$("#usr_id").text(),
+					nom:$("#usr_nom").val(),
+		  		    prenom: $("#usr_prenom").val(),
+		  		    age: $("#usr_age").val(),
+		  			email: $("#usr_email").val(),
+		  		    password: $("#usr_password").val()
+				},
+				function(data,status){
+					if(data == "Failed") {
+						alert("Error updating user")
+					} else {
+						alert("User updated successfully")
+						window.location.href = 'manageusers.html?login='.concat(data.login).concat("&nom=").concat(data.nom).concat("&prenom=").concat(data.prenom).concat("&lastConnexionDate=").concat(data.lastConnexionDate).concat("&lastConnexionTime=").concat(data.lastConnexionTime);
+					}
+				});  
+			
+		}
+		else
+		{
+			alert("There is a problem with the red field(s)")
+		}
+	
+	userOk = false;
 }
 
 function funcEditUser(param) {
@@ -292,35 +311,48 @@ function funcAdduser(param) {
 
 function funcCreateUser() {
 	
-	if($("#usr_admin").is(":checked")) {
-        var adminvalue = 'Y'
-    } else {
-        var adminvalue = 'N'
-    }
-
+	checkUserForm("createUser")
 	
-	$.post("ManageUsers",
+	if(userOk == true)
 		{
-			cmd:"CreateUser",
-			nom:$("#usr_nom").val(),
-  		    prenom: $("#usr_prenom").val(),
-  		    age: $("#usr_age").val(),
-  		    login: $("#usr_login").val(),
-  			email: $("#usr_email").val(),
-  		    password: $("#usr_password").val(),
-  		    admin: adminvalue
-		},
-		function(data,status){
-			if(data == "Failed") {
-				alert("Error creating user")
-			} else {
-				alert("User created successfully")
-				window.location.href = 'manageusers.html?login='.concat(data.login).concat("&nom=").concat(data.nom).concat("&prenom=").concat(data.prenom).concat("&lastConnexionDate=").concat(data.lastConnexionDate).concat("&lastConnexionTime=").concat(data.lastConnexionTime);
-			}
-		});  
 	
+			if($("#usr_admin").is(":checked")) {
+		        var adminvalue = 'Y'
+		    } else {
+		        var adminvalue = 'N'
+		    }
+		
+			
+			$.post("ManageUsers",
+				{
+					cmd:"CreateUser",
+					nom:$("#usr_nom").val(),
+		  		    prenom: $("#usr_prenom").val(),
+		  		    age: $("#usr_age").val(),
+		  		    login: $("#usr_login").val(),
+		  			email: $("#usr_email").val(),
+		  		    password: $("#usr_password").val(),
+		  		    admin: adminvalue
+				},
+				function(data,status){
+					if(data == "Failed") {
+						alert("Error creating user")
+					} else {
+						alert("User created successfully")
+						window.location.href = 'manageusers.html?login='.concat(data.login).concat("&nom=").concat(data.nom).concat("&prenom=").concat(data.prenom).concat("&lastConnexionDate=").concat(data.lastConnexionDate).concat("&lastConnexionTime=").concat(data.lastConnexionTime);
+					}
+				});  
+		}
+	else
+		{
+			alert("There is a problem with the red field(s)")
+		}
+	
+	userOk = false;
 
 }
+
+/******   GESTION DES VOLS  (ADMIN PART)    *******/
 
 function funcManageFlights() {
 	$.post("Admin",
@@ -476,6 +508,7 @@ function funcCreateFlight() {
 
 }
 
+/******   DIVERS  (ADMIN PART)      *******/
 
 function getURLParameter(name) {
     return decodeURI(
@@ -523,4 +556,101 @@ function funcFlightLoad() {
 	$("#flight_seats").val(getURLParameter("seats"));
 	$("#flight_id").text(getURLParameter("id"));
 	
+}
+
+
+/******   VERIFS FORMULAIRES      *******/
+
+function changeColorInput(object, state)
+{
+	if (state == false)
+		object.css("border", "2px solid red");
+	else
+		object.css("border", "1px solid black");
+}
+
+function checkUserForm(action)
+{
+	allOK = true;
+	
+	if ($("#usr_nom").val() == "")
+		{
+			allOK = false;
+			changeColorInput($("#usr_nom"), false);
+		}
+	else
+		{
+			changeColorInput($("#usr_nom"), true);
+		}
+	if ($("#usr_prenom").val() == "")
+		{
+			allOK = false;
+			changeColorInput($("#usr_prenom"), false);
+		}
+	else
+		{
+			changeColorInput($("#usr_prenom"), true);
+		}
+	if ($("#usr_email").val() == "")
+		{
+			allOK = false;
+			changeColorInput($("#usr_email"), false);
+		}
+	else
+		{
+			changeColorInput($("#usr_email"), true);
+		}
+	if ($("#usr_age").val() == "")
+		{
+			allOK = false;
+			changeColorInput($("#usr_age"), false);
+		}
+	else
+		{
+			changeColorInput($("#usr_age"), true);
+		}
+		
+	if (action == "createUser")
+		{
+			if ($("#usr_login").val() == "")
+				{
+					allOK = false;
+					changeColorInput($("#usr_login"), false);
+				}
+			else
+				{
+					changeColorInput($("#usr_login"), true);
+				}
+			
+			if ($("#usr_password").val() != $("#usr_rePassword").val())
+				{
+					allOK = false;
+					changeColorInput($("#usr_password"), false);
+					changeColorInput($("#usr_rePassword"), false);
+				}
+			else
+				{
+					changeColorInput($("#usr_password"), true);
+					changeColorInput($("#usr_rePassword"), true);
+				}
+			if ($("#usr_password").val() == "")
+				{
+					allOK = false;
+					changeColorInput($("#usr_password"), false);
+				}
+			else
+				{
+					changeColorInput($("#usr_password"), true);
+				}
+		}
+	
+	if (allOK == true)
+	{
+		userOk = true;
+	}
+	else
+	{
+		userOk = false;
+	}
+
 }

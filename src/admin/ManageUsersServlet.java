@@ -19,6 +19,8 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.taskqueue.Queue;
+import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.gson.Gson;
 
 import dao.UserDao;
@@ -229,6 +231,10 @@ public class ManageUsersServlet extends HttpServlet {
 				boolean isOk = false;
 				
 				if (nom != null && prenom != null && password != null && email != null && login != null) {
+					
+					//Queue queue = QueueFactory.getDefaultQueue();
+					
+					//queue.add(url("/worker").param("key", key))
 					
 					try {
 						
