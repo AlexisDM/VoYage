@@ -272,21 +272,6 @@ function funcLoadQueries() {
 							cell3.innerHTML = data[x].dateFlight;
 							cell4.innerHTML = data[x].dateSearch;
 						}
-	
-						if(initializeTab == true) {
-							var row=table.insertRow(0);
-							var cell1=row.insertCell(0);
-							var cell2=row.insertCell(1);
-							var cell3=row.insertCell(2);
-							var cell4=row.insertCell(3);
-							
-							cell1.innerHTML = "<b>From</b>";
-							cell2.innerHTML = "<b>To</b>";
-							cell3.innerHTML = "<b>Search for</b>";
-							cell4.innerHTML = "<b>Searched executed on</b>";
-							
-							initializeTab= false;
-						}
 					} else {
 						$("#resultSearch").text("You didn't query any flight");
 					}

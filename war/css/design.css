@@ -1,0 +1,8 @@
+table {
+	width: 750px;
+	margin: 100px auto 15px auto;
+}
+
+#linkToProfile {
+	text-transform:capitalize;
+}
