@@ -1,4 +1,5 @@
 userOk = false;
+initializeTab = true;
 
 function funcEmptyForm() {
 	$("#usr_nom").val("");
@@ -43,8 +44,6 @@ function funcLog() {
 			} else if(data == "firstConn") {
 				window.location.href = 'changepassword.html'
 			} else {
-				var tab = new Array();
-				tab = data.split(";");
 				window.location.href = 'flights.html';				
 			}
 		});  
@@ -76,7 +75,7 @@ function funcInitializeHeader() {
 			function(data,status){
 				if(data != null) {
 					var tab = data.split(";");
-					
+
 					//Nombre d'utilisateurs connectés
 					if(tab[1] == 1) {
 						$("#numUserConnected").text("You are the only user connected");
@@ -92,15 +91,53 @@ function funcInitializeHeader() {
 			});
 }
 
+function funcInitializeFromCities() {
+	$.post("flight",
+			{
+				cmd:"LoadFromCities"
+			},
+			function(data,status){
+				if(data != null) {
+					data = data.substr(1, data.length - 2);
+					tab = data.split(", ");
+					
+					for(var i = 0 ; i < tab.length ; i++) {
+						$("#fromCity").append("<option value="+tab[i]+">"+tab[i]+"</option>");
+					}
+				} else {
+					alert("Une erreur est survenue pendant le chargement de la page. Merci de recharger la page.");
+				}
+			});
+}
+
+function funcInitializeToCities() {
+	$.post("flight",
+			{
+				cmd:"LoadToCities"
+			},
+			function(data,status){
+				if(data != null) {
+					data = data.substr(1, data.length - 2);
+					tab = data.split(", ");
+					
+					for(var i = 0 ; i < tab.length ; i++) {
+						$("#toCity").append("<option value="+tab[i]+">"+tab[i]+"</option>");
+					}
+				} else {
+					alert("Une erreur est survenue pendant le chargement de la page. Merci de recharger la page.");
+				}
+			});
+}
+
 function funcLogOutUser() {
-	alert("Coucou");
 	$.post("login",
 			{
 				cmd:"PostLogOutUser"
 			},
 			function(data,status){
 				if(data == "success") {
-					alert("Vous avez été déconnecté.")
+					alert("Vous avez été déconnecté.");
+					window.location.href = 'login.html';
 				} else {
 					alert("Erreur lors de la déconnexion.");
 				}
@@ -108,17 +145,63 @@ function funcLogOutUser() {
 }
 
 function funcGetFlights() {
-	alert("coucou");
-	/*$.post("Flight",
+	$.post("flight",
 			{
-				cmd:"LoadUsers"
+				cmd:"LoadFlights",
+				from: $("#fromCity").val(),
+				to: $("#toCity").val(),
+				dateDep: $("#fli_departure").val(),
+				timeDep: $("#DepartureHour").val(),
 			},
 			function(data,status){
 				if(data == "Failed") {
 					alert("Error loading users list")
 				} else {
+					var table=document.getElementById("flightSearchResult");
 					
-			});  */
+					for (x in data)
+					{
+						var row=table.insertRow(x);
+						
+						var cell1=row.insertCell(0);
+						var cell2=row.insertCell(1);
+						var cell3=row.insertCell(2);
+						var cell4=row.insertCell(3);
+						var cell5=row.insertCell(4);
+						var cell6=row.insertCell(5);
+						var cell7=row.insertCell(6);
+						
+						cell1.innerHTML = data[x].from;
+						cell2.innerHTML = data[x].to;
+						cell3.innerHTML = data[x].departure;
+						cell4.innerHTML = data[x].arrival;
+						cell5.innerHTML = data[x].time;
+						cell6.innerHTML = data[x].seats;
+						cell7.innerHTML = data[x].price;
+					}
+
+					if(initializeTab == true) {
+						var row=table.insertRow(0);
+						var cell1=row.insertCell(0);
+						var cell2=row.insertCell(1);
+						var cell3=row.insertCell(2);
+						var cell4=row.insertCell(3);
+						var cell5=row.insertCell(4);
+						var cell6=row.insertCell(5);
+						var cell7=row.insertCell(6);
+						
+						cell1.innerHTML = "<b>From</b>";
+						cell2.innerHTML = "<b>To</b>";
+						cell3.innerHTML = "<b>Date of departure</b>";
+						cell4.innerHTML = "<b>Date of arrival</b>";
+						cell5.innerHTML = "<b>Duration</b>";
+						cell6.innerHTML = "<b>Number or seats</b>";
+						cell7.innerHTML = "<b>Price</b>";
+						
+						initializeTab = false;
+					}
+				}
+			});
 }
 
 function funcLogAdmin() {
@@ -153,7 +236,19 @@ function funcDisconnect() {
 		});  
 }
 
-
+function funcLoadQueries() {
+	$.post("query",
+			{
+				cmd:"Disconnect"
+			},
+			function(data,status){
+				if(data == "Failed") {
+					alert("You couldn't be disconnected")
+				} else {
+					window.location.href = 'loginadmin.html';
+				}
+			});  
+}
 /******   GESTION DES USERS (ADMIN PART)      *******/
 
 function funcManageUsers() {

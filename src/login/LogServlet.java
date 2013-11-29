@@ -36,8 +36,19 @@ public class LogServlet extends HttpServlet {
 					if(user != null) {
 						//Création d'une session stockant le login
 						HttpSession session = req.getSession();
-						session.setAttribute("login", user.getLogin());
-						session.setAttribute("id", user.getId());
+						
+						session.setAttribute("login", login);
+						session.setAttribute("password", password);
+						session.setAttribute("lastConnexionDate", user.getLastConnectionDate());
+						session.setAttribute("lastConnexionTime", user.getLastConnectionTime());
+						session.setAttribute("creationAccount", user.getCreationAccount());
+						session.setAttribute("nom", user.getNom());
+						session.setAttribute("prenom", user.getPrenom());
+						session.setAttribute("email", user.getEmail());
+						session.setAttribute("age", user.getAge());
+						session.setAttribute("admin", user.getAdmin());
+						session.setAttribute("password", user.getPassword());
+						session.setAttribute("id", KeyFactory.keyToString(user.getId()));
 						
 						if(user.getLastConnectionTime() == -1) {
 							out.write(Global.firstConn);
@@ -61,6 +72,7 @@ public class LogServlet extends HttpServlet {
 					UserDao.UpdateUser(user);
 					
 					if(user.getPassword().equals(newPassword)) {
+						req.getSession().setAttribute("password", newPassword);
 						out.write(Global.success);
 					} else {
 						out.write(Global.fail);
@@ -71,7 +83,6 @@ public class LogServlet extends HttpServlet {
 			} else if("PostLogOutUser".equals(cmd)) {
 				HttpSession session = req.getSession();
 				boolean isOk = false;
-				
 				
 				SimpleDateFormat format=new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy",Locale.US);
 				Date convertedDateCreation = null;	
@@ -100,12 +111,6 @@ public class LogServlet extends HttpServlet {
 					isOk = true;
 				}
 	
-				if(isOk) {
-					out.write(Global.success);
-				} else {
-					out.write(Global.fail);
-				}
-				
 				if(isOk) {
 					out.write(Global.success);
 				} else {

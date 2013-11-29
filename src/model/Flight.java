@@ -14,6 +14,8 @@ public class Flight {
 	Date departure;
 	int hours;
 	
+	public Flight() {}
+	
 	public Flight(Key id, String from, String to, int price, int seats,
 			Date arrival, Date departure, int hours) {
 		super();

@@ -1,8 +1,5 @@
-/META-INF
-/admin
 /dao
 /flight
-/formulaire
-/log4j.properties
-/login
 /model
+/login
+/query

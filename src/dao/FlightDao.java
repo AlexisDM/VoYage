@@ -2,6 +2,7 @@ package dao;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -13,9 +14,11 @@ import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
+
 import model.Flight;
 
 public class FlightDao {
@@ -156,7 +159,7 @@ public class FlightDao {
 		
 		return out;
 	}
-
+	
 	@SuppressWarnings("unused")
 	public static int numUsersConnected() {
 		int usersCo = 0;
@@ -174,5 +177,79 @@ public class FlightDao {
 		}
 
 		return usersCo;
+	}
+	
+	public static List<Flight> loadSimilarFlights(Flight flight) {
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		
+		List<Flight> flights = new ArrayList<Flight>();
+		
+		//Filtres simples from et to
+		Filter fromCity = new FilterPredicate("from", FilterOperator.EQUAL, flight.getFrom());
+		Filter toCity = new FilterPredicate("to", FilterOperator.EQUAL, flight.getTo());
+		
+		//Filtre composé pour les deux filtres précédents
+		Filter rangeFromTo = CompositeFilterOperator.and(fromCity, toCity);
+		
+		//Initialisation d'une seconde date pour récupérer les vols qui sont au maximum 2 jours après la date spécifiée
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(flight.getDeparture());
+		cal.add(Calendar.DAY_OF_YEAR, 2);
+		Date maxDepTime = cal.getTime();
+	
+		//Requete
+		Query q = new Query("flight");
+		q.setFilter(rangeFromTo);
+
+		//On boucle en regardant si le vol trouvé est dans l'interval date demandée <= date trouvée <= date demandée + 2 jours
+		PreparedQuery pq = datastore.prepare(q);
+		for (Entity result : pq.asIterable()) {
+			
+			System.out.println("datastore = "+result.getProperty("time").toString());
+			
+			Flight oneFlight = new Flight(result.getKey(), result.getProperty("from").toString(), result.getProperty("to").toString(), 
+					Integer.parseInt(result.getProperty("price").toString()), Integer.parseInt(result.getProperty("seats").toString()), 
+					stringToDate(result.getProperty("arrival").toString()), stringToDate(result.getProperty("departure").toString()), 
+					Integer.parseInt(result.getProperty("time").toString()));
+
+			if(oneFlight.getDeparture().after(flight.getDeparture()) && oneFlight.getDeparture().before(maxDepTime)) {
+				flights.add(oneFlight);
+			}
+			
+			System.out.println("flight = "+oneFlight.getHours());
+		}
+		
+		saveQueryInDatastore(flight);
+		
+		return flights;
+	}
+
+	public static String getCities(String fromOrTo) {
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		List<String> listCities = new ArrayList<String>();
+			
+		Query q = new Query("flight");
+
+		PreparedQuery pq = datastore.prepare(q);
+
+		for (Entity result : pq.asIterable()) {
+			if(!listCities.contains(result.getProperty(fromOrTo))) {
+				listCities.add(result.getProperty(fromOrTo).toString());
+			}
+		}
+		
+		return listCities.toString();
+	}
+
+	public static void saveQueryInDatastore(Flight flight) {
+		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+		
+		Entity entityQuery = new Entity("query");
+		
+		entityQuery.setProperty("from", flight.getFrom());
+		entityQuery.setProperty("to", flight.getTo());
+		entityQuery.setProperty("departure", flight.getDeparture());
+		
+		datastore.put(entityQuery);
 	}
 }
