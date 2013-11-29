@@ -1,4 +1,4 @@
-package query;
+package search;
 
 import java.io.IOException;
 import java.io.PrintWriter;
