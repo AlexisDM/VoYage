@@ -48,7 +48,7 @@ public class FlightServlet extends HttpServlet {
 					e.printStackTrace();
 				}
 				
-				List<Flight> flights = FlightDao.loadSimilarFlights(flight);
+				List<Flight> flights = FlightDao.loadSimilarFlights(flight, req.getSession().getAttribute("login").toString());
 				
 				out.write(new Gson().toJson(flights));
 			}

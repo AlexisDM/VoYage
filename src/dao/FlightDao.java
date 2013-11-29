@@ -179,7 +179,7 @@ public class FlightDao {
 		return usersCo;
 	}
 	
-	public static List<Flight> loadSimilarFlights(Flight flight) {
+	public static List<Flight> loadSimilarFlights(Flight flight, String login) {
 		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 		
 		List<Flight> flights = new ArrayList<Flight>();
@@ -219,7 +219,7 @@ public class FlightDao {
 			System.out.println("flight = "+oneFlight.getHours());
 		}
 		
-		QueryDao.saveQueryInDatastore(flight);
+		SearchDao.saveQueryInDatastore(flight, login);
 		
 		return flights;
 	}

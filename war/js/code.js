@@ -1,5 +1,4 @@
 userOk = false;
-initializeTab = true;
 
 function funcEmptyForm() {
 	$("#usr_nom").val("");
@@ -158,6 +157,7 @@ function funcGetFlights() {
 					alert("Erreur durant le chargement des vols")
 				} else {
 					var table=document.getElementById("flightSearchResult");
+					table.empty();
 					
 					for (x in data)
 					{
@@ -197,8 +197,6 @@ function funcGetFlights() {
 						cell5.innerHTML = "<b>Duration</b>";
 						cell6.innerHTML = "<b>Number or seats</b>";
 						cell7.innerHTML = "<b>Price</b>";
-						
-						initializeTab = false;
 					}
 				}
 			});
@@ -243,12 +241,48 @@ function funcLoadQueries() {
 			},
 			function(data,status){
 				if(data == "fail") {
-					alert("You couldn't be disconnected")
+					alert("Erreur durant le chargement des vols")
 				} else {
-					window.location.href = 'loginadmin.html';
+					var table=document.getElementById("flightSearchResult");
+					table.empty();
+					
+					for (x in data)
+					{
+						var row=table.insertRow(x);
+						
+						var cell1=row.insertCell(0);
+						var cell2=row.insertCell(1);
+						var cell3=row.insertCell(2);
+						var cell4=row.insertCell(3);
+						var cell5=row.insertCell(4);
+						
+						cell1.innerHTML = data[x].from;
+						cell2.innerHTML = data[x].to;
+						cell3.innerHTML = data[x].departure;
+						cell4.innerHTML = data[x].arrival;
+						cell5.innerHTML = data[x].time;
+					}
+
+					if(initializeTab == true) {
+						var row=table.insertRow(0);
+						var cell1=row.insertCell(0);
+						var cell2=row.insertCell(1);
+						var cell3=row.insertCell(2);
+						var cell4=row.insertCell(3);
+						var cell5=row.insertCell(4);
+						
+						cell1.innerHTML = "<b>From</b>";
+						cell2.innerHTML = "<b>To</b>";
+						cell3.innerHTML = "<b>Date of departure</b>";
+						cell4.innerHTML = "<b>Date of arrival</b>";
+						cell5.innerHTML = "<b>Duration</b>";
+						cell6.innerHTML = "<b>Number or seats</b>";
+						cell7.innerHTML = "<b>Price</b>";
+					}
 				}
-			});  
+			});
 }
+
 /******   GESTION DES USERS (ADMIN PART)      *******/
 
 function funcManageUsers() {
