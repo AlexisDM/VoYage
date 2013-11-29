@@ -24,7 +24,7 @@ public class SearchServlet extends HttpServlet{
 		PrintWriter out = resp.getWriter();
 		
 		if (cmd != null) {
-			if("LoadQueries".equals(cmd)) {
+			if("LoadSearch".equals(cmd)) {
 				resp.setContentType("application/json");
 				
 				List<Search> queries = SearchDao.getSearches(req.getSession().getAttribute("login").toString());

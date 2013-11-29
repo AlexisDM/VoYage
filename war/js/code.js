@@ -1,4 +1,5 @@
 userOk = false;
+var initializeTab = true;
 
 function funcEmptyForm() {
 	$("#usr_nom").val("");
@@ -144,7 +145,8 @@ function funcLogOutUser() {
 }
 
 function funcGetFlights() {
-	$.post("flight",
+	if($("#fli_departure").val() != "") {
+		$.post("flight",
 			{
 				cmd:"LoadFlights",
 				from: $("#fromCity").val(),
@@ -154,52 +156,62 @@ function funcGetFlights() {
 			},
 			function(data,status){
 				if(data == "fail") {
-					alert("Erreur durant le chargement des vols")
+					alert("Error when loading flights")
 				} else {
-					var table=document.getElementById("flightSearchResult");
-					table.empty();
-					
-					for (x in data)
-					{
-						var row=table.insertRow(x);
+					if(data != "") {
+						$("#resultSearch").text("");
+						var table=document.getElementById("flightSearchResult");
 						
-						var cell1=row.insertCell(0);
-						var cell2=row.insertCell(1);
-						var cell3=row.insertCell(2);
-						var cell4=row.insertCell(3);
-						var cell5=row.insertCell(4);
-						var cell6=row.insertCell(5);
-						var cell7=row.insertCell(6);
-						
-						cell1.innerHTML = data[x].from;
-						cell2.innerHTML = data[x].to;
-						cell3.innerHTML = data[x].departure;
-						cell4.innerHTML = data[x].arrival;
-						cell5.innerHTML = data[x].time;
-						cell6.innerHTML = data[x].seats;
-						cell7.innerHTML = data[x].price;
-					}
-
-					if(initializeTab == true) {
-						var row=table.insertRow(0);
-						var cell1=row.insertCell(0);
-						var cell2=row.insertCell(1);
-						var cell3=row.insertCell(2);
-						var cell4=row.insertCell(3);
-						var cell5=row.insertCell(4);
-						var cell6=row.insertCell(5);
-						var cell7=row.insertCell(6);
-						
-						cell1.innerHTML = "<b>From</b>";
-						cell2.innerHTML = "<b>To</b>";
-						cell3.innerHTML = "<b>Date of departure</b>";
-						cell4.innerHTML = "<b>Date of arrival</b>";
-						cell5.innerHTML = "<b>Duration</b>";
-						cell6.innerHTML = "<b>Number or seats</b>";
-						cell7.innerHTML = "<b>Price</b>";
+						//Ajoute les lignes renvoyées par la servlet dans le tableau
+						for (x in data) {
+							var row=table.insertRow(x);
+							
+							var cell1=row.insertCell(0);
+							var cell2=row.insertCell(1);
+							var cell3=row.insertCell(2);
+							var cell4=row.insertCell(3);
+							var cell5=row.insertCell(4);
+							var cell6=row.insertCell(5);
+							var cell7=row.insertCell(6);
+							
+							cell1.innerHTML = data[x].from;
+							cell2.innerHTML = data[x].to;
+							cell3.innerHTML = data[x].departure;
+							cell4.innerHTML = data[x].arrival;
+							cell5.innerHTML = data[x].time;
+							cell6.innerHTML = data[x].seats;
+							cell7.innerHTML = data[x].price;
+						}
+	
+						if(initializeTab == true) {
+							var row=table.insertRow(0);
+							var cell1=row.insertCell(0);
+							var cell2=row.insertCell(1);
+							var cell3=row.insertCell(2);
+							var cell4=row.insertCell(3);
+							var cell5=row.insertCell(4);
+							var cell6=row.insertCell(5);
+							var cell7=row.insertCell(6);
+							
+							cell1.innerHTML = "<b>From</b>";
+							cell2.innerHTML = "<b>To</b>";
+							cell3.innerHTML = "<b>Date of departure</b>";
+							cell4.innerHTML = "<b>Date of arrival</b>";
+							cell5.innerHTML = "<b>Duration</b>";
+							cell6.innerHTML = "<b>Number or seats</b>";
+							cell7.innerHTML = "<b>Price</b>";
+							
+							initializeTab = false;
+						}
+					} else {
+						//La recherche n'a rien renvoyé
+						$("#resultTab").text("Your search didn't match any result. Please try another one");
 					}
 				}
 			});
+	} else {
+		alert("Please select a date for the travel");
+	}
 }
 
 function funcLogAdmin() {
@@ -235,49 +247,48 @@ function funcDisconnect() {
 }
 
 function funcLoadQueries() {
-	$.post("query",
+	$.post("search",
 			{
-				cmd:"LoadQueries"
+				cmd:"LoadSearch"
 			},
 			function(data,status){
 				if(data == "fail") {
-					alert("Erreur durant le chargement des vols")
+					alert("Error when loading your historical")
 				} else {
-					var table=document.getElementById("flightSearchResult");
-					table.empty();
-					
-					for (x in data)
-					{
-						var row=table.insertRow(x);
+					if(data != "") {
+						var table=document.getElementById("querySearchResult");
 						
-						var cell1=row.insertCell(0);
-						var cell2=row.insertCell(1);
-						var cell3=row.insertCell(2);
-						var cell4=row.insertCell(3);
-						var cell5=row.insertCell(4);
-						
-						cell1.innerHTML = data[x].from;
-						cell2.innerHTML = data[x].to;
-						cell3.innerHTML = data[x].departure;
-						cell4.innerHTML = data[x].arrival;
-						cell5.innerHTML = data[x].time;
-					}
-
-					if(initializeTab == true) {
-						var row=table.insertRow(0);
-						var cell1=row.insertCell(0);
-						var cell2=row.insertCell(1);
-						var cell3=row.insertCell(2);
-						var cell4=row.insertCell(3);
-						var cell5=row.insertCell(4);
-						
-						cell1.innerHTML = "<b>From</b>";
-						cell2.innerHTML = "<b>To</b>";
-						cell3.innerHTML = "<b>Date of departure</b>";
-						cell4.innerHTML = "<b>Date of arrival</b>";
-						cell5.innerHTML = "<b>Duration</b>";
-						cell6.innerHTML = "<b>Number or seats</b>";
-						cell7.innerHTML = "<b>Price</b>";
+						for (x in data)
+						{
+							var row=table.insertRow(x);
+							
+							var cell1=row.insertCell(0);
+							var cell2=row.insertCell(1);
+							var cell3=row.insertCell(2);
+							var cell4=row.insertCell(3);
+							
+							cell1.innerHTML = data[x].from;
+							cell2.innerHTML = data[x].to;
+							cell3.innerHTML = data[x].dateFlight;
+							cell4.innerHTML = data[x].dateSearch;
+						}
+	
+						if(initializeTab == true) {
+							var row=table.insertRow(0);
+							var cell1=row.insertCell(0);
+							var cell2=row.insertCell(1);
+							var cell3=row.insertCell(2);
+							var cell4=row.insertCell(3);
+							
+							cell1.innerHTML = "<b>From</b>";
+							cell2.innerHTML = "<b>To</b>";
+							cell3.innerHTML = "<b>Search for</b>";
+							cell4.innerHTML = "<b>Searched executed on</b>";
+							
+							initializeTab= false;
+						}
+					} else {
+						$("#resultSearch").text("You didn't query any flight");
 					}
 				}
 			});
