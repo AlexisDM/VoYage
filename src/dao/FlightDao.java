@@ -219,7 +219,7 @@ public class FlightDao {
 			System.out.println("flight = "+oneFlight.getHours());
 		}
 		
-		saveQueryInDatastore(flight);
+		QueryDao.saveQueryInDatastore(flight);
 		
 		return flights;
 	}
@@ -239,17 +239,5 @@ public class FlightDao {
 		}
 		
 		return listCities.toString();
-	}
-
-	public static void saveQueryInDatastore(Flight flight) {
-		DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-		
-		Entity entityQuery = new Entity("query");
-		
-		entityQuery.setProperty("from", flight.getFrom());
-		entityQuery.setProperty("to", flight.getTo());
-		entityQuery.setProperty("departure", flight.getDeparture());
-		
-		datastore.put(entityQuery);
 	}
 }

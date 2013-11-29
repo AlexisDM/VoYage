@@ -39,7 +39,7 @@ function funcLog() {
 			password: $("#usr_password").val()
 		},
 		function(data,status){
-			if(data == "failed") {
+			if(data == "fail") {
 				$('#lblErrorPassword').text("Bad connection parameters. Please try again");
 			} else if(data == "firstConn") {
 				window.location.href = 'changepassword.html'
@@ -154,8 +154,8 @@ function funcGetFlights() {
 				timeDep: $("#DepartureHour").val(),
 			},
 			function(data,status){
-				if(data == "Failed") {
-					alert("Error loading users list")
+				if(data == "fail") {
+					alert("Erreur durant le chargement des vols")
 				} else {
 					var table=document.getElementById("flightSearchResult");
 					
@@ -212,7 +212,7 @@ function funcLogAdmin() {
 			password: $("#adm_password").val()
 		},
 		function(data,status){
-			if(data == "Failed") {
+			if(data == "fail") {
 				$('#lblErrorPassword').text("Bad connection parameters. Please try again");
 			} else {
 				var tab = new Array();
@@ -228,7 +228,7 @@ function funcDisconnect() {
 			cmd:"Disconnect"
 		},
 		function(data,status){
-			if(data == "Failed") {
+			if(data == "fail") {
 				alert("You couldn't be disconnected")
 			} else {
 				window.location.href = 'loginadmin.html';
@@ -239,10 +239,10 @@ function funcDisconnect() {
 function funcLoadQueries() {
 	$.post("query",
 			{
-				cmd:"Disconnect"
+				cmd:"LoadQueries"
 			},
 			function(data,status){
-				if(data == "Failed") {
+				if(data == "fail") {
 					alert("You couldn't be disconnected")
 				} else {
 					window.location.href = 'loginadmin.html';
