@@ -218,7 +218,7 @@ public class ManageUsersServlet extends HttpServlet {
 
 			}
 			
-			/*if ("CreateUserQueue".equals(cmd)) {
+			if ("CreateUserQueue".equals(cmd)) {
 				
 				 Queue queue = QueueFactory.getDefaultQueue();
 				    TaskOptions task=TaskOptions.Builder.withUrl("/ManageUsers")
@@ -231,7 +231,7 @@ public class ManageUsersServlet extends HttpServlet {
 				      .param("password", req.getParameter("password"))
 				      .param("admin", req.getParameter("admin"));
 				    queue.add(task);
-			}*/
+			}
 			
 			if ("CreateUser".equals(cmd)) {
 			
