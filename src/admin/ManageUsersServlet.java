@@ -21,6 +21,7 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.taskqueue.Queue;
 import com.google.appengine.api.taskqueue.QueueFactory;
+import com.google.appengine.api.taskqueue.TaskOptions;
 import com.google.gson.Gson;
 
 import dao.UserDao;
@@ -217,6 +218,21 @@ public class ManageUsersServlet extends HttpServlet {
 
 			}
 			
+			/*if ("CreateUserQueue".equals(cmd)) {
+				
+				 Queue queue = QueueFactory.getDefaultQueue();
+				    TaskOptions task=TaskOptions.Builder.withUrl("/ManageUsers")
+				      .param("cmd", "CreateUser")
+				      .param("nom", req.getParameter("nom"))
+				      .param("prenom", req.getParameter("prenom"))
+				      .param("age", req.getParameter("age"))
+				      .param("email", req.getParameter("email"))
+				      .param("login", req.getParameter("login"))
+				      .param("password", req.getParameter("password"))
+				      .param("admin", req.getParameter("admin"));
+				    queue.add(task);
+			}*/
+			
 			if ("CreateUser".equals(cmd)) {
 			
 				String nom = req.getParameter("nom");
@@ -231,10 +247,7 @@ public class ManageUsersServlet extends HttpServlet {
 				boolean isOk = false;
 				
 				if (nom != null && prenom != null && password != null && email != null && login != null) {
-					
-					//Queue queue = QueueFactory.getDefaultQueue();
-					
-					//queue.add(url("/worker").param("key", key))
+
 					
 					try {
 						

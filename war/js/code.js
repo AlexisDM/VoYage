@@ -427,6 +427,7 @@ function funcCreateUser() {
 			
 			$.post("ManageUsers",
 				{
+					//cmd:"CreateUserQueue",
 					cmd:"CreateUser",
 					nom:$("#usr_nom").val(),
 		  		    prenom: $("#usr_prenom").val(),
