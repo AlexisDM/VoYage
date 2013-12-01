@@ -4,85 +4,82 @@
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 		<title>VoYage</title>
 		
-		<script src="js/code.js"></script>
+		<script src="js/code.js" type="text/javascript"></script>
 		<link rel="stylesheet" type="text/css" media="screen" href="css/design.css" /> 
    
    		<!-- JQuery -->
 		<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-		<script src="js/codiqa.ext.js"></script>
+		<script src="js/codiqa.ext.js" type="text/javascript"></script>
 		
 		<!-- Bootstrap -->
 		<link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.min.css" /> 
 		<script src="js/bootstrap.min.js"></script>
+		
 	</head>
+
+	<body onload="funcFillDataAdmin()">
 	
-	<body>
-		<header class="navbar navbar-inverse navbar-fixed-top bs-docs-nav" role="banner">
+	<header class="navbar navbar-inverse navbar-fixed-top bs-docs-nav" role="banner">
 			<div class="container">
 				<div class="navbar-header">
-					<button class="navbar-toggle" data-target=".bs-navbar-collapse" data-toggle="collapse" type="button">
-						<span class="sr-only">Toggle navigation</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-					<a class="navbar-brand" href="flights.html">Voyage</a>
+				<a class="navbar-brand" href="login.html">Voyage</a>					
 				</div>
 				
-				<nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
-					<ul class="nav navbar-nav">
-						<li><a href="login.html">login</a></li>
-						<li class="active"><a href="register.html">register</a></li>
-					</ul>
-				</nav>
-			</div>
+		</div>
 		</header>
-		<h1>voYage</h1>
-		<h2>Add Users</h2>
-		<fieldset>
-			<legend>Information</legend>
-			<table>
-				<tr>
-					<td>Nom</td>
-					<td><input type="text" id="usr_nom" /></td>
-				</tr>
-				<tr>
-					<td>Prenom</td>
-					<td><input type="text" id="usr_prenom" /></td>
-				</tr>
-				<tr>
-					<td>Age</td>
-					<td><input type="text" id="usr_age" /></td>
-				</tr>
-				<tr>
-					<td>E-Mail</td>
-					<td><input type="text" id="usr_email" /></td>
-				</tr>
-				<tr style='height: 30px;'></tr>
-				<tr>
-					<td>Login</td>
-					<td><input type="text" id="usr_login" /></td>
-				</tr>
- 				<tr>
- 					<td>Password</td>
- 					<td><input type="password" id="usr_password" /></td>
-				</tr>
- 				<tr>
- 					<td>Re-Password</td>
- 					<td><input type="password" id="usr_rePassword" /></td>
-				</tr>
-				<tr>
- 					<td>Admin?</td>
- 					<td><input type="checkbox" id="usr_admin" /></td>
-				</tr>
-				<tr style='height: 30px;'></tr>
-				<tr>
-					<td colspan="2">
-						<button type="" id="btnCreateUser" onclick="funcCreateUser();">Create</button><button id="btnCancel" onclick="history.go(-1);">Cancel</button>
-					</td>
-				</tr>
-			</table>
-		</fieldset>
+
+		<div id="divBanRegister">
+			<h1 id="titleRegister">Add an user</h1>
+			<fieldset id="fieldRegister">
+				<legend>Information</legend>
+				<table id="tabRegister">
+					<tr>
+						<td align="right"><label for="usr_nom">Last Name</label></td>
+						<td><input type="text" name="usr_nom" id="usr_nom" class="form-control" placeholder="Last Name" /></td>
+					</tr>
+					<tr>
+						<td align="right"><label for="usr_age">First Name</label></td>
+						<td><input type="text" name="usr_prenom" id="usr_prenom" class="form-control" placeholder="First Name" /></td>
+					</tr>
+					<tr>
+						<td align="right"><label for="usr_age">Age</label></td>
+						<td><input type="text" name="usr_age" id="usr_age" class="form-control" placeholder="Age" /></td>
+					</tr>
+					<tr>
+						<td align="right"><label for="usr_email">E-Mail</label></td>
+						<td><input type="email" name="usr_email" id="usr_email" class="form-control" placeholder="E-Mail" /></td>
+					</tr>
+					<tr style='height: 30px;'></tr>
+					<tr>
+						<td align="right"><label for="usr_login">Login</label></td>
+						<td><input type="text" name="usr_login" id="usr_login" class="form-control" placeholder="Login" /></td>
+					</tr>
+					<tr>
+						<td align="right"><label for="usr_password">Password</label></td>
+						<td><input type="password" name="usr_password" id="usr_password" class="form-control" placeholder="Password" /></td>
+					</tr>
+					<tr>
+						<td align="right"><label for="usr_rePassword">Re Password</label></td>
+						<td><input type="password" name="usr_rePassword" id="usr_rePassword" class="form-control" placeholder="Re Password" /></td>
+					</tr>
+					<tr>
+						<td align="right"><label for="usr_admin">Admin?</label></td>
+						<td><input type="checkbox" name="usr_admin" id="usr_admin" class="form-control"/></td>
+					</tr>
+					<tr height="30px"></tr>
+					<tr>
+						<td align="right">
+							<button id="btnSendId" onclick="funcCreateUser();" class="btn btn-info btn-lg">Create</button>
+						</td>
+						<td align="center">
+							<button id="btnCancel" onclick="history.go(-1);" class="btn btn-info btn-lg">Cancel</button>
+						</td>
+					</tr>
+				</table>
+			</fieldset>
+		</div>
+
+
 		<footer>
 			<br />
 			AleksTaune Inc (c)

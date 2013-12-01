@@ -79,7 +79,7 @@ public class UserDao {
 				datastore.put(user);
 			}
 		}
-		
+
 		return myuser;
 	}
 	

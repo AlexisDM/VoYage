@@ -17,23 +17,37 @@
   </head>
 
   <body>
-  	<h1>Admin Interface - Connexion</h1>
-    	<table>
-    		<tr>
-    			<td>Login</td>
-    			<td><input type="text" id="adm_login" /></td>
-    		</tr>
-    		<tr>
-    			<td>Password</td>
-    			<td><input type="password" id="adm_password" /></td>
-    		</tr>
-    		<tr>
-    			<td colspan="2">
-    				<button id="btnLoginAdmin" onclick="funcLogAdmin();">Log in</button>
-    			</td>
-    		</tr>
-    		<tr style='height: 30px;'></tr>
-    	</table>
-    	<span id="lblErrorPassword" style="color: red;"></span>
+  
+  <header class="navbar navbar-inverse navbar-fixed-top bs-docs-nav" role="banner">
+			<div class="container">
+				<div class="navbar-header">
+					<button class="navbar-toggle" data-target=".bs-navbar-collapse" data-toggle="collapse" type="button">
+					</button>
+					<a class="navbar-brand" href="login.html">Voyage</a>
+				</div>
+			</div>
+		</header>
+  
+  
+    	<div id="divBanLogin">
+			<h1 id="titleConnexion">Admin Interface - Connexion</h1>
+			<table id="tabLogin">
+				<tr>
+					<td><label for="adm_login">Login</label></td>
+					<td><input type="text" name="adm_login" id="adm_login" class="form-control" placeholder="Login" /></td>
+				</tr>
+				<tr>
+	    			<td><label for="adm_password">Password</label></td>
+	    			<td><input type="password" name="adm_password" id="adm_password" class="form-control" placeholder="Password" /></td>
+	    		</tr>
+	    		<tr height="30px"></tr>
+	    		<tr>
+	    			<td colspan="2" align="center">
+	    				<button id="btnLoginAdmin" onclick="funcLogAdmin();" class="btn btn-info btn-lg">Log in</button>
+	    			</td>
+	    		</tr>
+	    	</table>
+	    	<h4 id="lblErrorPassword" style="color: red;"></h4>
+    	</div>
   </body>
 </html>

@@ -14,28 +14,46 @@
 		<!-- Bootstrap -->
 		<link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.min.css" /> 
 		<script src="js/bootstrap.min.js"></script>
+		
 	</head>
 
 	<body onload="funcFillDataAdmin();funcLoadUsers()">
-	<h1>voYage</h1>
+	
+	<header class="navbar navbar-inverse navbar-fixed-top bs-docs-nav" role="banner">
+			<div class="container">
+				<div class="navbar-header">
+					<button class="navbar-toggle" data-target=".bs-navbar-collapse" data-toggle="collapse" type="button">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="login.html">Voyage</a>					
+				</div>
+				
+				<nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+					<ul class="nav navbar-nav">
+						<li><a href="#" onclick="funcManageUsers();">Manage Users</a></li>
+						<li><a href="#"  onclick="funcManageFlights();">Manage Flights</a></li>
+						<li><a href="#"  onclick="funcDisconnect();">Logout</a></li>
+					</ul>
+				</nav>
+				<span id="login-blurb" >
+				Welcome <strong><span id="fieldAdminLogin"></span></strong>
+				, Last Connexion : <strong><span id="fieldAdminLastConnexionDate"></span></strong>
+				, Last Connexion Duration : <strong><span id="fieldAdminLastConnexionTime"></span> minute(s)</strong>
+				</span>
+			</div>
+		</header>
+		
+		<div id="boxManageUsers">
 		<h2>Manage Users</h2>
-		<div id="resultLogin">
-
-			Welcome <span id="fieldAdminLogin"></span>
-			<br/>
-	  		Last Connexion : <span id="fieldAdminLastConnexionDate"></span>
-			<br/>
-	  		Last Connexion Duration : <span id="fieldAdminLastConnexionTime"></span> minute(s)
-	  		<br/>
-	  		<button id="btnDisconnect" onclick="funcDisconnect();">Log Out</button>
-		</div>
-		<hr/>
-		<div id="users">
 			<button id="btnAddUser" onclick="funcAdduser();">Add an user</button>
 			<br/><br/>
-			<table id="myUsers" border="1">
+			<table id="myUsers" class="table table-hover table-bordered">
 				
 			</table>
+		
 		</div>
 	</body>
 </html>

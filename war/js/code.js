@@ -351,7 +351,7 @@ function funcUpdateUser() {
 			$.post("ManageUsers",
 				{
 					cmd:"UpdateUser",
-					id:$("#usr_id").text(),
+					id:$("#usr_id").val(),
 					nom:$("#usr_nom").val(),
 		  		    prenom: $("#usr_prenom").val(),
 		  		    age: $("#usr_age").val(),
@@ -537,7 +537,7 @@ function funcUpdateFlight() {
 	$.post("ManageFlights",
 		{
 			cmd:"UpdateFlight",
-			id:$("#flight_id").text(),
+			id:$("#flight_id").val(),
 			from:$("#flight_from").val(),
   		    to: $("#flight_to").val(),
   		    departure: $("#flight_departure").val(),
@@ -645,7 +645,7 @@ function funcUserLoad() {
 	$("#usr_creation").text(getURLParameter("creationAccount"));
 	$("#usr_lastConnexionDate").text(getURLParameter("lastConnexionDate"));
 	$("#usr_lastConnexionTime").text(getURLParameter("lastConnexionTime"));
-	$("#usr_id").text(getURLParameter("id"));
+	$("#usr_id").val(getURLParameter("id"));
 	
 }
 
@@ -656,7 +656,7 @@ function funcFlightLoad() {
 	$("#flight_arrival").val(getURLParameter("arrival"));
 	$("#flight_price").val(getURLParameter("price"));
 	$("#flight_seats").val(getURLParameter("seats"));
-	$("#flight_id").text(getURLParameter("id"));
+	$("#flight_id").val(getURLParameter("id"));
 	
 }
 

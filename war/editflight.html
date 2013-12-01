@@ -14,49 +14,63 @@
 		<!-- Bootstrap -->
 		<link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.min.css" /> 
 		<script src="js/bootstrap.min.js"></script>
+		
 	</head>
-	
+
 	<body onload="funcFlightLoad()">
-		<h1>voYage</h1>
-		<h2>Edit Flights</h2>
-		<fieldset>
-			<legend>Information</legend>
-			<table>
-				<tr>
-					<td>From</td>
-					<td><input type="text" id="flight_from" /></td>
-				</tr>
-				<tr>
-					<td>To</td>
-					<td><input type="text" id="flight_to" /></td>
-				</tr>
-				<tr style='height: 30px;'></tr>
-				<tr>
-					<td>Departure</td>
-					<td><input type="text" id="flight_departure" /></td>
-				</tr>
-				<tr>
-					<td>Arrival</td>
-					<td><input type="text" id="flight_arrival" /></td>
-				</tr>
-				<tr style='height: 30px;'></tr>
-				<tr>
-					<td>Price</td>
-					<td><input type="text" id="flight_price" /></td>
-				</tr>
-				<tr>
-					<td>Seats</td>
-					<td><input type="text" id="flight_seats" /></td>
-				</tr>
-				<tr style='height: 30px;'></tr>
-				<tr>
-					<td colspan="2">
-						<button id="btnUpdateFlight" onclick="funcUpdateFlight();">Update</button><button id="btnCancel" onclick="history.go(-1);">Cancel</button>
-					</td>
-				</tr>
-			</table>
-			<input type="hidden" id="flight_id"/>
-		</fieldset>
+	
+	<header class="navbar navbar-inverse navbar-fixed-top bs-docs-nav" role="banner">
+			<div class="container">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="login.html">Voyage</a>					
+				</div>
+			</div>
+		</header>
+
+				<div id="divBanRegister">
+			<h1 id="titleRegister">Update an flight</h1>
+			<fieldset id="fieldRegister">
+				<legend>Information</legend>
+				<table id="tabUpdate">
+					<tr>
+						<td align="right"><label for="flight_from">From</label></td>
+						<td><input type="text" name="flight_from" id="flight_from" class="form-control" placeholder="From" /></td>
+					</tr>
+					<tr>
+						<td align="right"><label for="flight_to">To</label></td>
+						<td><input type="text" name="flight_to" id="flight_to" class="form-control" placeholder="To" /></td>
+					</tr>
+					<tr>
+						<td align="right"><label for="flight_departure">Departure</label></td>
+						<td><input type="text" name="flight_departure" id="flight_departure" class="form-control" placeholder="Departure" /></td>
+					</tr>
+					<tr>
+						<td align="right"><label for="flight_arrival">Arrival</label></td>
+						<td><input type="email" name="flight_arrival" id="flight_arrival" class="form-control" placeholder="Arrival" /></td>
+					</tr>
+					<tr>
+						<td align="right"><label for="flight_price">Price</label></td>
+						<td><input type="email" name="flight_price" id="flight_price" class="form-control" placeholder="Price" /></td>
+					</tr>
+					<tr>
+						<td align="right"><label for="flight_seats">Seats</label></td>
+						<td><input type="email" name="flight_seats" id="flight_seats" class="form-control" placeholder="Seats" /></td>
+					</tr>
+					
+					<tr height="30px"></tr>
+					<tr>
+						<td align="right">
+							<button id="btnSendId" onclick="funcUpdateFlight();" class="btn btn-info btn-lg">Update</button>
+						</td>
+						<td align="center">
+							<button id="btnCancel" onclick="history.go(-1);" class="btn btn-info btn-lg">Cancel</button>
+						</td>
+					</tr>
+				</table>
+					<input type="hidden" id="flight_id"/>
+			</fieldset>
+		</div>
+
 		<footer>
 			<br />
 			AleksTaune Inc (c)

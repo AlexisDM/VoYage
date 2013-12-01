@@ -4,7 +4,7 @@
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 		<title>VoYage</title>
 		
-		<script src="js/code.js" type="text/javascript"></script>
+	<script src="js/code.js" type="text/javascript"></script>
 		<link rel="stylesheet" type="text/css" media="screen" href="css/design.css" /> 
    
    		<!-- JQuery -->
@@ -14,58 +14,81 @@
 		<!-- Bootstrap -->
 		<link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.min.css" /> 
 		<script src="js/bootstrap.min.js"></script>
+		
 	</head>
 
 	<body onload="funcFillDataAdmin();funcLoadFlights()">
-	<h1>voYage</h1>
-		<h2>Manage Flights</h2>
-		<div id="resultLogin">
-
-			Welcome <span id="fieldAdminLogin"></span>
-			<br/>
-	  		Last Connexion : <span id="fieldAdminLastConnexionDate"></span>
-			<br/>
-	  		Last Connexion Duration : <span id="fieldAdminLastConnexionTime"></span> minute(s)
-	  		<br/>
-	  		<button id="btnDisconnect" onclick="funcDisconnect();">Log Out</button>
+	
+	<header class="navbar navbar-inverse navbar-fixed-top bs-docs-nav" role="banner">
+			<div class="container">
+				<div class="navbar-header">
+					<button class="navbar-toggle" data-target=".bs-navbar-collapse" data-toggle="collapse" type="button">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="login.html">Voyage</a>					
+				</div>
+				
+				<nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+					<ul class="nav navbar-nav">
+						<li><a href="#" onclick="funcManageUsers();">Manage Users</a></li>
+						<li><a href="#"  onclick="funcManageFlights();">Manage Flights</a></li>
+						<li><a href="#"  onclick="funcDisconnect();">Logout</a></li>
+					</ul>
+				</nav>
+				<span id="login-blurb" >
+				Welcome <strong><span id="fieldAdminLogin"></span></strong>
+				, Last Connexion : <strong><span id="fieldAdminLastConnexionDate"></span></strong>
+				, Last Connexion Duration : <strong><span id="fieldAdminLastConnexionTime"></span> minute(s)</strong>
+				</span>
+			</div>
+		</header>
+		
+			<div id="divBanRegister">
+			<h1 id="titleRegister">Add a flight</h1>
+			<fieldset id="fieldRegister">
+				<legend>Information</legend>
+				<table id="tabAddFLight">
+					<tr>
+						<td align="right"><label for="flight_from">From</label></td>
+						<td><input type="text" name="flight_from" id="flight_from" class="form-control" placeholder="From" /></td>
+					</tr>
+					<tr>
+						<td align="right"><label for="flight_departure">Departure</label></td>
+						<td><input type="text" name="flight_departure" id="flight_departure" class="form-control" placeholder="Departure" /></td>
+					</tr>
+					<tr>
+						<td align="right"><label for="flight_price">Price</label></td>
+						<td><input type="text" name="flight_price" id="flight_price" class="form-control" placeholder="Price" /></td>
+					</tr>
+					<tr>
+						<td align="right"><label for="flight_to">To</label></td>
+						<td><input type="text" name="flight_to" id="flight_to" class="form-control" placeholder="To" /></td>
+					</tr>
+					<tr>
+						<td align="right"><label for="flight_arrival">Arrival</label></td>
+						<td><input type="text" name="flight_arrival" id="flight_arrival" class="form-control" placeholder="Arrival" /></td>
+					</tr>
+					<tr>
+						<td align="right"><label for="flight_seats">Seats</label></td>
+						<td><input type="text" name="flight_seats" id="flight_seats" class="form-control" placeholder="Seats" /></td>
+					</tr>
+					<tr height="30px"></tr>
+					<tr>
+						<td align="right">
+							<button id="btnSendId" onclick="funcCreateFlight();" class="btn btn-info btn-lg">Create</button>
+						</td>
+					</tr>
+				</table>
+			</fieldset>
 		</div>
-		<hr/>
-		<div id = "add_flight">
-		<br/>
-			<fieldset>
-			<legend>Add a flight</legend>
-			<table>
-				<tr>
-					<td>From :</td>
-					<td><input type="text" id="flight_from" /></td>
-					<td>Departure :</td>
-					<td><input type="text" id="flight_departure" /></td>
-					<td>Price :</td>
-					<td><input type="text" id="flight_price" /></td>
-				</tr>
-				<tr>
-					<td>To :</td>
-					<td><input type="text" id="flight_to" /></td>
-					<td>Arrival :</td>
-					<td><input type="text" id="flight_arrival" /></td>
-					<td>Seats :</td>
-					<td><input type="text" id="flight_seats" /></td>
-				</tr>
-				<tr style='height: 30px;'></tr>
-				<tr>
-					<td colspan="6">
-						<button id="btnCreateFlight" onclick="funcCreateFlight();">Create</button>
-					</td>
-				</tr>
-			</table>
-		</fieldset>
-		</div>
-		<hr/>
-		<div id="flights">
+		
 			<br/><br/>
-			<table id="myFlights" border="1">
+			<table id="myFlights" class="table table-hover table-bordered">
 				
 			</table>
-		</div>
+		
 	</body>
 </html>

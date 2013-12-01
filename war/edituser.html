@@ -14,65 +14,82 @@
 		<!-- Bootstrap -->
 		<link rel="stylesheet" type="text/css" media="screen" href="css/bootstrap.min.css" /> 
 		<script src="js/bootstrap.min.js"></script>
+		
 	</head>
-	
+
 	<body onload="funcUserLoad()">
-		<h1>voYage</h1>
-		<h2>Edit Users</h2>
-		<fieldset>
-			<legend>Information</legend>
-			<table>
-				<tr>
-					<td>Nom</td>
-					<td><input type="text" id="usr_nom" /></td>
-				</tr>
-				<tr>
-					<td>Prenom</td>
-					<td><input type="text" id="usr_prenom" /></td>
-				</tr>
-				<tr>
-					<td>Age</td>
-					<td><input type="text" id="usr_age" /></td>
-				</tr>
-				<tr>
-					<td>E-Mail</td>
-					<td><input type="text" id="usr_email" /></td>
-				</tr>
-				<tr style='height: 30px;'></tr>
-				<tr>
-					<td>Login</td>
-					<td> <span id="usr_login"></span></td>
-				</tr>
- 				<tr>
- 					<td>Password</td>
- 					<td><input type="password" id="usr_password" /></td>
-				</tr>
- 				<tr>
- 					<td>Re-Password</td>
- 					<td><input type="password" id="usr_rePassword" /></td>
-				</tr>
-				<tr style='height: 30px;'></tr>
-				<tr>
- 					<td>Creation Date</td>
- 					<td><span id="usr_creation"></span></td>
-				</tr>
-				<tr>
- 					<td>Last Connexion Date</td>
- 					<td><span id="usr_lastConnexionDate"></span></td>
-				</tr>
-				<tr>
- 					<td>Last Connexion Time</td>
- 					<td><span id="usr_lastConnexionTime"></span> minute(s)</td>
-				</tr>
-				<tr style='height: 30px;'></tr>
-				<tr>
-					<td colspan="2">
-						<button id="btnUpdateUser" onclick="funcUpdateUser();">Update</button><button id="btnCancel" onclick="history.go(-1);">Cancel</button>
-					</td>
-				</tr>
-			</table>
-			<input type="hidden" id="usr_id"/>
-		</fieldset>
+	
+	<header class="navbar navbar-inverse navbar-fixed-top bs-docs-nav" role="banner">
+			<div class="container">
+				<div class="navbar-header">
+				<a class="navbar-brand" href="login.html">Voyage</a>					
+				</div>
+				
+			</div>
+		</header>
+		
+			<div id="divBanRegister">
+			<h1 id="titleRegister">Update an user</h1>
+			<fieldset id="fieldRegister">
+				<legend>Information</legend>
+				<table id="tabUpdate">
+					<tr>
+						<td align="right"><label for="usr_nom">Last Name</label></td>
+						<td><input type="text" name="usr_nom" id="usr_nom" class="form-control" placeholder="Last Name" /></td>
+					</tr>
+					<tr>
+						<td align="right"><label for="usr_prenom">First Name</label></td>
+						<td><input type="text" name="usr_prenom" id="usr_prenom" class="form-control" placeholder="First Name" /></td>
+					</tr>
+					<tr>
+						<td align="right"><label for="usr_age">Age</label></td>
+						<td><input type="text" name="usr_age" id="usr_age" class="form-control" placeholder="Age" /></td>
+					</tr>
+					<tr>
+						<td align="right"><label for="usr_email">E-Mail</label></td>
+						<td><input type="email" name="usr_email" id="usr_email" class="form-control" placeholder="E-Mail" /></td>
+					</tr>
+					<tr style='height: 30px;'></tr>
+					<tr>
+						<td align="right"><label for="usr_login">Login</label></td>
+						<td><span id="usr_login"></span></td>
+					</tr>
+					<tr>
+						<td align="right"><label for="usr_password">Password</label></td>
+						<td><input type="password" name="usr_password" id="usr_password" class="form-control" placeholder="Password" /></td>
+					</tr>
+					<tr>
+						<td align="right"><label for="usr_rePassword">Re Password</label></td>
+						<td><input type="password" name="usr_rePassword" id="usr_rePassword" class="form-control" placeholder="Re Password" /></td>
+					</tr>
+					<tr style='height: 30px;'></tr>
+					<tr>
+						<td align="right"><label for="usr_creation">Creation Date</label></td>
+						<td><span id="usr_creation"></span></td>
+					</tr>
+					<tr>
+						<td align="right"><label for="usr_lastConnexionDate">Last Connexion Date</label></td>
+						<td><span id="usr_lastConnexionDate"></span></td>
+					</tr>
+					<tr>
+						<td align="right"><label for="usr_lastConnexionTime">Last Connexion Time</label></td>
+						<td><span id="usr_lastConnexionTime"></span></td>
+					</tr>
+					
+					<tr height="30px"></tr>
+					<tr>
+						<td align="right">
+							<button id="btnSendId" onclick="funcUpdateUser();" class="btn btn-info btn-lg">Update</button>
+						</td>
+						<td align="center">
+							<button id="btnCancel" onclick="history.go(-1);" class="btn btn-info btn-lg">Cancel</button>
+						</td>
+					</tr>
+				</table>
+					
+			</fieldset>
+		</div>
+		
 		<footer>
 			<br />
 			AleksTaune Inc (c)
