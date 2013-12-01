@@ -99,7 +99,7 @@ public class ManageFlightsServlet extends HttpServlet {
 					finally{
 						
 						SimpleDateFormat df1=new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy",Locale.US);
-						DateFormat df2 = new SimpleDateFormat("MM/dd/yyyy HH:mm",Locale.US);
+						DateFormat df2 = new SimpleDateFormat("dd/MM/yyyy HH:mm",Locale.US);
 
 						Date arrivalDate = null;
 						Date departureDate = null;
@@ -145,7 +145,7 @@ public class ManageFlightsServlet extends HttpServlet {
 				String id = req.getParameter("id");
 				boolean isOk = false;
 				
-				SimpleDateFormat format=new SimpleDateFormat("MM/dd/yyyy HH:mm",Locale.US);
+				SimpleDateFormat format=new SimpleDateFormat("dd/MM/yyyy HH:mm",Locale.US);
 				Date departureConverted = null;
 				Date arrivalConverted = null;
 				
@@ -237,7 +237,7 @@ public class ManageFlightsServlet extends HttpServlet {
 				String price = req.getParameter("price");
 				String seats = req.getParameter("seats");
 				
-				SimpleDateFormat format=new SimpleDateFormat("MM/dd/yyyy HH:mm",Locale.US);
+				SimpleDateFormat format=new SimpleDateFormat("dd/MM/yyyy HH:mm",Locale.US);
 				Date departureConverted = null;
 				Date arrivalConverted = null;
 				
