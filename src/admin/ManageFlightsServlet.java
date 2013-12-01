@@ -2,11 +2,15 @@ package admin;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.*;
@@ -93,11 +97,31 @@ public class ManageFlightsServlet extends HttpServlet {
 						e.printStackTrace();
 					}
 					finally{
+						
+						SimpleDateFormat df1=new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy",Locale.US);
+						DateFormat df2 = new SimpleDateFormat("MM/dd/yyyy HH:mm",Locale.US);
+
+						Date arrivalDate = null;
+						Date departureDate = null;
+						String arrivalString = null;
+						String departureString = null;
+						
+						try {
+							arrivalDate = df1.parse(f.getArrival().toString());
+							departureDate = df1.parse(f.getDeparture().toString());
+							arrivalString = df2.format(arrivalDate);
+							departureString = df2.format(departureDate);
+							
+						} catch (ParseException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
 						oneflight.put("id", id);
 						oneflight.put("from", f.getFrom());
 						oneflight.put("to", f.getTo());
-						oneflight.put("departure", f.getDeparture().toString());
-						oneflight.put("arrival", f.getArrival().toString());
+						oneflight.put("departure", departureString);
+						oneflight.put("arrival", arrivalString);
 						oneflight.put("seats", String.valueOf(f.getSeats()));
 						oneflight.put("price", String.valueOf(f.getPrice()));
 						oneflight.put("time",String.valueOf(f.getHours()));
@@ -121,11 +145,24 @@ public class ManageFlightsServlet extends HttpServlet {
 				String id = req.getParameter("id");
 				boolean isOk = false;
 				
-				int time = (int) (FlightDao.stringToDate(req.getParameter("arrival")).getTime()-FlightDao.stringToDate(req.getParameter("departure")).getTime())/3600000;
+				SimpleDateFormat format=new SimpleDateFormat("MM/dd/yyyy HH:mm",Locale.US);
+				Date departureConverted = null;
+				Date arrivalConverted = null;
+				
+				try {
+					departureConverted = format.parse(req.getParameter("departure").toString());
+					arrivalConverted = format.parse(req.getParameter("arrival").toString());
+					
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				int time = (int) (arrivalConverted.getTime()-departureConverted.getTime())/3600000;
 
 				Flight flight = new Flight(KeyFactory.stringToKey(id), req.getParameter("from"), req.getParameter("to"), 
 						Integer.parseInt(req.getParameter("price")), Integer.parseInt(req.getParameter("seats")), 
-						FlightDao.stringToDate(req.getParameter("arrival")), FlightDao.stringToDate(req.getParameter("departure")), 
+						arrivalConverted, departureConverted, 
 						time);
 				try
 				{
@@ -200,15 +237,29 @@ public class ManageFlightsServlet extends HttpServlet {
 				String price = req.getParameter("price");
 				String seats = req.getParameter("seats");
 				
+				SimpleDateFormat format=new SimpleDateFormat("MM/dd/yyyy HH:mm",Locale.US);
+				Date departureConverted = null;
+				Date arrivalConverted = null;
+				
+				try {
+					departureConverted = format.parse(departure);
+					arrivalConverted = format.parse(arrival);
+					
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				
 				boolean isOk = false;
 				
 				if (from != null && to != null && departure != null && arrival != null && price != null && seats != null) {
 					
-					int time = (int) (FlightDao.stringToDate(arrival).getTime()-FlightDao.stringToDate(departure).getTime())/3600000;
+					int time = (int) (arrivalConverted.getTime()-departureConverted.getTime())/3600000;
 					
 					try {
 						
-						Flight flightToAdd = new Flight(from, to, Integer.parseInt(price), Integer.parseInt(seats), FlightDao.stringToDate(arrival), FlightDao.stringToDate(departure), time);
+						Flight flightToAdd = new Flight(from, to, Integer.parseInt(price), Integer.parseInt(seats),arrivalConverted, departureConverted, time);
 						FlightDao.addFlight(flightToAdd);
 					}
 					catch(Exception e){
