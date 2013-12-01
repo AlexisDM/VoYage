@@ -50,7 +50,7 @@ public class LogServlet extends HttpServlet {
 						session.setAttribute("password", user.getPassword());
 						session.setAttribute("id", KeyFactory.keyToString(user.getId()));
 						
-						if(user.getLastConnectionTime() == -1) {
+						if(user.getLastConnectionDate().equals(user.getCreationAccount())) {
 							out.write(Global.firstConn);
 						} else {
 							out.write(Global.success);

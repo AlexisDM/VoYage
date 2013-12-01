@@ -129,6 +129,40 @@ function funcInitializeToCities() {
 			});
 }
 
+function funcLoadQueries() {
+	$.post("search",
+			{
+				cmd:"LoadSearch"
+			},
+			function(data,status){
+				if(data == "fail") {
+					alert("Error when loading your historical")
+				} else {
+					if(data != "") {
+						var table=document.getElementById("querySearchResult");
+						
+						for (x in data)
+						{
+							var row=table.insertRow(x);
+							
+							var cell1 = row.insertCell(0);
+							var cell2 = row.insertCell(1);
+							var cell3 = row.insertCell(2);
+							var cell4 = row.insertCell(3);
+							
+							cell1.innerHTML = data[x].from;
+							cell2.innerHTML = data[x].to;
+							cell3.innerHTML = data[x].dateFlight;
+							cell4.innerHTML = data[x].dateSearch;
+							
+						}
+					} else {
+						$("#resultSearch").text("You didn't query any flight");
+					}
+				}
+			});
+}
+
 function funcLogOutUser() {
 	$.post("login",
 			{
@@ -193,6 +227,7 @@ function funcGetFlights() {
 	}
 }
 
+/******   GESTION DES USERS (ADMIN PART)      *******/
 function funcLogAdmin() {
 	$.post("logAdmin",
 		{
@@ -224,42 +259,6 @@ function funcDisconnect() {
 			}
 		});  
 }
-
-function funcLoadQueries() {
-	$.post("search",
-			{
-				cmd:"LoadSearch"
-			},
-			function(data,status){
-				if(data == "fail") {
-					alert("Error when loading your historical")
-				} else {
-					if(data != "") {
-						var table=document.getElementById("querySearchResult");
-						
-						for (x in data)
-						{
-							var row=table.insertRow(x);
-							
-							var cell1 = row.insertCell(0);
-							var cell2 = row.insertCell(1);
-							var cell3 = row.insertCell(2);
-							var cell4 = row.insertCell(3);
-							
-							cell1.innerHTML = data[x].from;
-							cell2.innerHTML = data[x].to;
-							cell3.innerHTML = data[x].dateFlight;
-							cell4.innerHTML = data[x].dateSearch;
-							
-						}
-					} else {
-						$("#resultSearch").text("You didn't query any flight");
-					}
-				}
-			});
-}
-
-/******   GESTION DES USERS (ADMIN PART)      *******/
 
 function funcManageUsers() {
 	$.post("Admin",
@@ -342,7 +341,6 @@ function funcLoadUsers() {
 		});  
 }
 
-
 function funcUpdateUser() {
 	
 	checkUserForm("UpdateUser")
@@ -408,7 +406,6 @@ function funcDeleteUser(param) {
 			}
 		});  
 }
-
 
 function funcAdduser(param) {
 	window.location.href = 'adduser.html'
@@ -669,8 +666,10 @@ function funcFlightLoad() {
 function changeColorInput(object, state)
 {
 	if (state == false)
+		//object.addClass("has-error");
 		object.css("border", "2px solid red");
 	else
+		//object.addClass("has-succes");
 		object.css("border", "1px solid black");
 }
 

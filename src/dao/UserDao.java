@@ -66,20 +66,19 @@ public class UserDao {
 					stringToDouble(result.getProperty("lastConnexionTime").toString()));
 		}
 
-		if (myuser.getId() != null ) {
-			Entity user = null;
-			try {
-				user = datastore.get(myuser.getId());
-			} catch (EntityNotFoundException e) {
-				e.printStackTrace();
+		if(myuser != null) {
+			if (myuser.getId() != null ) {
+				Entity user = null;
+				try {
+					user = datastore.get(myuser.getId());
+				} catch (EntityNotFoundException e) {
+					e.printStackTrace();
+				}
+				user.setProperty("lastConnexionDate", new Date());
+				user.setProperty("lastConnexionTime", "0");
+				datastore.put(user);
 			}
-			user.setProperty("lastConnexionDate", new Date());
-			user.setProperty("lastConnexionTime", "0");
-			datastore.put(user);
 		}
-		
-		
-
 		
 		return myuser;
 	}
