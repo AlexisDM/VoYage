@@ -16,7 +16,40 @@
 		<script src="js/bootstrap.min.js"></script>
 	</head>
 	
-	<body onload="funcUserLoad()">
+	<body>
+		<header class="navbar navbar-inverse navbar-fixed-top bs-docs-nav" role="banner">
+			<div class="container">
+				<div class="navbar-header">
+					<button class="navbar-toggle" data-target=".bs-navbar-collapse" data-toggle="collapse" type="button">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="flights.html">Voyage</a>
+				</div>
+				
+				<nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+					<ul class="nav navbar-nav">
+						<li><a href="flights.html">Flights</a></li>
+						<li><a href="historical.html">Historical</a></li>
+						<li class="dropdown" class="active">
+							<a class="dropdown-toggle" data-toggle="dropdown" href="#" id="linkToProfile"> <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="editionuser.html"><i class="icon-lock"></i> Edit Profile <span class="glyphicon glyphicon-edit"></span></a></li>
+								<li><a href="changepassword.html"><i class="icon-lock"></i> Change password <span class="glyphicon glyphicon-minus-sign"></span></a></li>
+								<li class="divider"></li>
+								<li><a href="#" onclick="funcLogOutUser()"><i class="icon-off"></i> Log out <span class="glyphicon glyphicon-off"></span></a></li>
+							</ul>
+						</li>
+					</ul>				
+					<ul class="nav navbar-nav navbar-right">
+						<li id="numUserConnected"></li>
+					</ul>
+				</nav>
+			</div>
+		</header>
+		
 		<h1>voYage</h1>
 		<h2>Edit Users</h2>
 		<fieldset>

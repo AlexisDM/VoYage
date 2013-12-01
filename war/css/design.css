@@ -1,8 +1,67 @@
-table {
+#searchBan {
+	width: 600px;
+	margin: 100px auto 15px auto;
+	padding-top: 15px;
+	padding-bottom: 15px;
+	border-radius: 7px;
+	background-color: rgb(230, 230, 230);
+}
+
+#selectPanel, #tabLogin {
+	width: 550px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#tabRegister {
+	width: 300px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#tabRegister tr td {
+	padding-right: 5px;
+}
+
+#tabFlightResult, #tabQueryResult {
 	width: 750px;
 	margin: 100px auto 15px auto;
 }
 
+#divBanLogin, #divBanRegister {
+	width: 650px;
+	margin: 100px auto 15px auto;
+	border: solid 1px rgb(230, 230, 230);
+	border-radius: 7px;
+	box-shadow: 1px 1px 10px #888888;
+}
+
+#lblErrorPassword {
+	width: 375px;
+	margin: 10px auto 10px auto;
+}
+
 #linkToProfile {
 	text-transform:capitalize;
+}
+
+#numUserConnected {
+	color: rgb(245, 245, 245);
+	padding-top: 15px;
+}
+
+#titleRegister {
+	width: 350px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#titleConnexion {
+	width: 200px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#fieldRegister {
+	padding: 15px;
 }

@@ -46,7 +46,7 @@ function funcLog() {
 			} else {
 				window.location.href = 'flights.html';				
 			}
-		});  
+		});
 }
 
 function funcChangePass() {
@@ -84,7 +84,7 @@ function funcInitializeHeader() {
 					}
 					
 					//login pour le lien vers la page profil
-					$("#linkToProfile").text(tab[0]);
+					$("#linkToProfile").text(tab[0]+$("#linkToProfile").text());
 				} else {
 					alert("Une erreur est survenue pendant le chargement de la page. Merci de recharger la page.");
 				}
@@ -159,9 +159,8 @@ function funcGetFlights() {
 					alert("Error when loading flights")
 				} else {
 					if(data != "") {
-						$("#resultSearch").text("");
 						var table=document.getElementById("flightSearchResult");
-						
+						$("#flightSearchResult tr").remove();
 						//Ajoute les lignes renvoyées par la servlet dans le tableau
 						for (x in data) {
 							var row=table.insertRow(x);
@@ -182,30 +181,10 @@ function funcGetFlights() {
 							cell6.innerHTML = data[x].seats;
 							cell7.innerHTML = data[x].price;
 						}
-	
-						if(initializeTab == true) {
-							var row=table.insertRow(0);
-							var cell1=row.insertCell(0);
-							var cell2=row.insertCell(1);
-							var cell3=row.insertCell(2);
-							var cell4=row.insertCell(3);
-							var cell5=row.insertCell(4);
-							var cell6=row.insertCell(5);
-							var cell7=row.insertCell(6);
-							
-							cell1.innerHTML = "<b>From</b>";
-							cell2.innerHTML = "<b>To</b>";
-							cell3.innerHTML = "<b>Date of departure</b>";
-							cell4.innerHTML = "<b>Date of arrival</b>";
-							cell5.innerHTML = "<b>Duration</b>";
-							cell6.innerHTML = "<b>Number or seats</b>";
-							cell7.innerHTML = "<b>Price</b>";
-							
-							initializeTab = false;
-						}
 					} else {
 						//La recherche n'a rien renvoyé
-						$("#resultTab").text("Your search didn't match any result. Please try another one");
+						alert("Your search didn't match any result. Please try another one");
+						$("#flightSearchResult tr").remove();
 					}
 				}
 			});
@@ -262,15 +241,16 @@ function funcLoadQueries() {
 						{
 							var row=table.insertRow(x);
 							
-							var cell1=row.insertCell(0);
-							var cell2=row.insertCell(1);
-							var cell3=row.insertCell(2);
-							var cell4=row.insertCell(3);
+							var cell1 = row.insertCell(0);
+							var cell2 = row.insertCell(1);
+							var cell3 = row.insertCell(2);
+							var cell4 = row.insertCell(3);
 							
 							cell1.innerHTML = data[x].from;
 							cell2.innerHTML = data[x].to;
 							cell3.innerHTML = data[x].dateFlight;
 							cell4.innerHTML = data[x].dateSearch;
+							
 						}
 					} else {
 						$("#resultSearch").text("You didn't query any flight");
